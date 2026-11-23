@@ -4,247 +4,386 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Minecraft Memory</title>
+<title>Minecraft Memory Quest</title>
+
 <style>
 :root {
-    --navy: #06243f;
-    --blue: #0879bd;
-    --cyan: #42e8f5;
-    --ice: #eafaff;
-    --white: #ffffff;
-    --panel: rgba(4, 35, 65, .82);
-    --shadow: #02172c;
+    --navy:#06243f;
+    --blue:#0879bd;
+    --cyan:#42e8f5;
+    --ice:#eafaff;
 }
-* { box-sizing: border-box; }
-body {
-    margin: 0;
-    min-height: 100vh;
-    font-family: Arial, sans-serif;
-    color: var(--white);
-    text-align: center;
-    background:
-      radial-gradient(circle at 20% 10%, rgba(66,232,245,.26), transparent 35%),
-      radial-gradient(circle at 80% 90%, rgba(8,121,189,.45), transparent 38%),
-      linear-gradient(135deg, #061b35, #075a91 55%, #07365c);
-    background-attachment: fixed;
-}
-.screen {
-    min-height: 100vh; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; padding: 22px;
-}
-h1 {
-    font-size: clamp(30px, 5vw, 58px);
-    text-shadow: 0 4px 0 #03223d, 0 0 22px rgba(66,232,245,.35);
-    margin: 12px;
-}
-h2 { text-shadow: 0 2px 8px #03223d; }
-p { font-size: 18px; }
-.panel {
-    background: var(--panel); border: 2px solid rgba(66,232,245,.55);
-    border-radius: 18px; padding: 22px; width: min(94vw, 650px);
-    box-shadow: 0 14px 35px rgba(0,0,0,.28), 0 0 18px rgba(66,232,245,.12);
-}
-button, select {
-    background: linear-gradient(135deg, #12a4df, #0879bd);
-    color: white; border: 2px solid var(--cyan); border-radius: 12px;
-    padding: 12px 22px; font-size: 17px; font-weight: bold;
-    cursor: pointer; margin: 8px; box-shadow: 0 4px 0 #03436e;
-}
-button:hover { filter: brightness(1.15); transform: translateY(-2px); }
-button:active { transform: translateY(2px); box-shadow: none; }
-select { background: #06385f; }
-label { display: inline-flex; gap: 9px; align-items: center; margin: 10px; font-size: 17px; }
-input[type="checkbox"] { accent-color: var(--cyan); width: 18px; height: 18px; }
-#game { display: none; padding: 12px 10px 24px; }
-.info {
-    display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;
-    margin: 12px auto; font-size: 18px; font-weight: bold;
-}
-.stat {
-    background: rgba(2,29,54,.72); border: 1px solid rgba(66,232,245,.55);
-    padding: 9px 16px; border-radius: 12px; min-width: 120px;
-}
-.board {
-    display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: clamp(5px, 1vw, 12px); width: min(94vw, 850px);
-    margin: 15px auto;
-}
-.card {
-    aspect-ratio: 1/1; min-width: 0; border: 3px solid #41d9ed;
-    border-radius: 9px; background: #0879bd; cursor: pointer; position: relative;
-    overflow: hidden; box-shadow: 0 4px #03375d, 0 0 8px rgba(66,232,245,.14);
-    transition: transform .18s, box-shadow .18s, border-color .18s;
-    transform-style: preserve-3d;
-}
-.card:hover:not(.revealed):not(.matched) { transform: scale(1.035); box-shadow: 0 4px #03375d, 0 0 14px var(--cyan); }
-.card-back, .card-front {
-    position: absolute; inset: 0; width: 100%; height: 100%;
-    transition: opacity .22s ease, transform .25s ease;
-}
-.card-back {
-    background-color: #0879bd;
-    background-image:
-      repeating-linear-gradient(0deg, transparent 0 12px, rgba(255,255,255,.12) 12px 14px),
-      repeating-linear-gradient(90deg, transparent 0 12px, rgba(66,232,245,.17) 12px 14px);
-    opacity: 1; transform: scale(1);
-}
-.card-front {
-    display: none; background-image: url("dasd-cortada.jpg");
-    background-size: 500% 800%; background-repeat: no-repeat;
-    opacity: 0; transform: rotateY(90deg) scale(.82);
-}
-.card.revealed .card-back, .card.matched .card-back { opacity: 0; transform: scale(.75); }
-.card.revealed .card-front, .card.matched .card-front {
-    display: block; opacity: 1; transform: rotateY(0) scale(1);
-    animation: cardReveal .28s ease-out;
-}
-.card.matched {
-    border-color: #ffffff; box-shadow: 0 0 14px #42e8f5;
-    cursor: default; animation: matchedPulse .55s ease-out;
-}
-@keyframes cardReveal { from { transform: rotateY(80deg) scale(.75); opacity: .2; } to { transform: rotateY(0) scale(1); opacity: 1; } }
-@keyframes matchedPulse { 0% { transform: scale(1); } 45% { transform: scale(1.08); } 100% { transform: scale(1); } }
-@keyframes titleGlow { 0%,100% { text-shadow: 0 4px 0 #03223d, 0 0 12px rgba(66,232,245,.25); } 50% { text-shadow: 0 4px 0 #03223d, 0 0 28px rgba(66,232,245,.65); } }
-h1 { animation: titleGlow 3s infinite; }
-#victory { display: none; }
-.small { font-size: 14px; color: var(--ice); margin-top: 18px; }
-#bestRecord { margin-top: 8px; }
+* { box-sizing:border-box; }
 
-/* MENU INSPIRADO NA INTERFACE PIXELADA DO MINECRAFT */
+body {
+    margin:0;
+    min-height:100vh;
+    font-family:Arial,sans-serif;
+    color:white;
+    text-align:center;
+    background:
+      radial-gradient(circle at 20% 10%,rgba(66,232,245,.26),transparent 35%),
+      radial-gradient(circle at 80% 90%,rgba(8,121,189,.45),transparent 38%),
+      linear-gradient(135deg,#061b35,#075a91 55%,#07365c);
+    background-attachment:fixed;
+}
+
+.screen {
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:22px;
+}
+
+h1 {
+    font-size:clamp(30px,5vw,58px);
+    text-shadow:0 4px #03223d,0 0 22px rgba(66,232,245,.35);
+    margin:12px;
+    animation:titleGlow 3s infinite;
+}
+
+h2 { text-shadow:0 2px 8px #03223d; }
+p { font-size:18px; }
+
+.panel {
+    background:rgba(4,35,65,.82);
+    border:2px solid rgba(66,232,245,.55);
+    border-radius:18px;
+    padding:22px;
+    width:min(94vw,650px);
+    box-shadow:0 14px 35px rgba(0,0,0,.28),0 0 18px rgba(66,232,245,.12);
+}
+
+button,select {
+    background:linear-gradient(135deg,#12a4df,#0879bd);
+    color:white;
+    border:2px solid var(--cyan);
+    border-radius:12px;
+    padding:12px 22px;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+    margin:8px;
+    box-shadow:0 4px #03436e;
+}
+
+button:hover {
+    filter:brightness(1.15);
+    transform:translateY(-2px);
+}
+
+button:active {
+    transform:translateY(2px);
+    box-shadow:none;
+}
+
+select { background:#06385f; }
+label { display:inline-flex;gap:9px;align-items:center;margin:10px;font-size:17px; }
+input[type="checkbox"] { accent-color:var(--cyan);width:18px;height:18px; }
+
+#game { display:none;padding:12px 10px 24px; }
+
+.info {
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+    margin:12px auto;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.stat {
+    background:rgba(2,29,54,.72);
+    border:1px solid rgba(66,232,245,.55);
+    padding:9px 16px;
+    border-radius:12px;
+    min-width:120px;
+}
+
+.board {
+    display:grid;
+    grid-template-columns:repeat(5,minmax(0,1fr));
+    gap:clamp(5px,1vw,12px);
+    width:min(94vw,850px);
+    margin:15px auto;
+}
+
+.card {
+    aspect-ratio:1/1;
+    min-width:0;
+    border:3px solid #41d9ed;
+    border-radius:9px;
+    background:#0879bd;
+    cursor:pointer;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 4px #03375d,0 0 8px rgba(66,232,245,.14);
+    transition:transform .18s,box-shadow .18s,border-color .18s;
+    transform-style:preserve-3d;
+}
+
+.card:hover:not(.revealed):not(.matched) {
+    transform:scale(1.035);
+    box-shadow:0 4px #03375d,0 0 14px var(--cyan);
+}
+
+.card-back,.card-front {
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    transition:opacity .22s ease,transform .25s ease;
+}
+
+.card-back {
+    background-color:#0879bd;
+    background-image:
+      repeating-linear-gradient(0deg,transparent 0 12px,rgba(255,255,255,.12) 12px 14px),
+      repeating-linear-gradient(90deg,transparent 0 12px,rgba(66,232,245,.17) 12px 14px);
+    opacity:1;
+    transform:scale(1);
+}
+
+.card-front {
+    display:none;
+    background-image:url("dasd-cortada.jpg");
+    background-size:500% 800%;
+    background-repeat:no-repeat;
+    opacity:0;
+    transform:rotateY(90deg) scale(.82);
+}
+
+.card.revealed .card-back,.card.matched .card-back {
+    opacity:0;
+    transform:scale(.75);
+}
+
+.card.revealed .card-front,.card.matched .card-front {
+    display:block;
+    opacity:1;
+    transform:rotateY(0) scale(1);
+    animation:cardReveal .28s ease-out;
+}
+
+.card.matched {
+    border-color:white;
+    box-shadow:0 0 14px #42e8f5;
+    cursor:default;
+    animation:matchedPulse .55s ease-out;
+}
+
+@keyframes cardReveal {
+    from { transform:rotateY(80deg) scale(.75);opacity:.2; }
+    to { transform:rotateY(0) scale(1);opacity:1; }
+}
+
+@keyframes matchedPulse {
+    0% { transform:scale(1); }
+    45% { transform:scale(1.08); }
+    100% { transform:scale(1); }
+}
+
+@keyframes titleGlow {
+    0%,100% { text-shadow:0 4px #03223d,0 0 12px rgba(66,232,245,.25); }
+    50% { text-shadow:0 4px #03223d,0 0 28px rgba(66,232,245,.65); }
+}
+
+#victory { display:none; }
+
+/* MENU */
 .menu-scene {
-    position: relative;
-    width: min(96vw, 900px);
-    min-height: min(88vh, 720px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding: clamp(24px, 5vh, 50px) 18px 25px;
-    overflow: hidden;
-    border: 4px solid #a6efff;
-    border-radius: 4px;
+    position:relative;
+    width:min(96vw,900px);
+    min-height:min(88vh,720px);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:space-between;
+    padding:clamp(24px,5vh,50px) 18px 25px;
+    overflow:hidden;
+    border:4px solid #a6efff;
+    border-radius:4px;
     background:
-      linear-gradient(180deg, rgba(3,24,46,.12) 0%, rgba(3,24,46,.22) 34%, rgba(2,19,39,.85) 70%, #03172c 100%),
-      repeating-linear-gradient(0deg, transparent 0 42px, rgba(255,255,255,.035) 42px 44px),
-      repeating-linear-gradient(90deg, transparent 0 42px, rgba(255,255,255,.035) 42px 44px),
-      linear-gradient(145deg, #30b9e8 0%, #1265a1 35%, #07355c 66%, #061c38 100%);
-    box-shadow: 0 0 30px rgba(66,232,245,.3), inset 0 0 35px rgba(0,0,0,.25);
+      linear-gradient(180deg,rgba(3,24,46,.12) 0%,rgba(3,24,46,.22) 34%,rgba(2,19,39,.85) 70%,#03172c 100%),
+      repeating-linear-gradient(0deg,transparent 0 42px,rgba(255,255,255,.035) 42px 44px),
+      repeating-linear-gradient(90deg,transparent 0 42px,rgba(255,255,255,.035) 42px 44px),
+      linear-gradient(145deg,#30b9e8 0%,#1265a1 35%,#07355c 66%,#061c38 100%);
+    box-shadow:0 0 30px rgba(66,232,245,.3),inset 0 0 35px rgba(0,0,0,.25);
 }
+
 .menu-scene::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: .24;
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    opacity:.24;
     background:
-      linear-gradient(135deg, transparent 48%, #9df7ff 49% 51%, transparent 52%),
-      repeating-linear-gradient(0deg, transparent 0 68px, rgba(0,0,0,.22) 68px 72px);
+      linear-gradient(135deg,transparent 48%,#9df7ff 49% 51%,transparent 52%),
+      repeating-linear-gradient(0deg,transparent 0 68px,rgba(0,0,0,.22) 68px 72px);
 }
-.menu-logo, .menu-buttons { position: relative; z-index: 1; width: 100%; }
-.menu-logo { margin-top: 4vh; }
+
+.menu-logo,.menu-buttons {
+    position:relative;
+    z-index:1;
+    width:100%;
+}
+
+.menu-logo { margin-top:4vh; }
+
 .logo-pickaxe {
-    font-size: clamp(44px, 7vw, 78px);
-    filter: drop-shadow(4px 5px 0 #05365d);
-    margin-bottom: -8px;
+    font-size:clamp(44px,7vw,78px);
+    filter:drop-shadow(4px 5px 0 #05365d);
+    margin-bottom:-8px;
 }
+
 .logo-title {
-    font-family: Impact, "Arial Black", sans-serif;
-    font-size: clamp(40px, 8vw, 86px);
-    letter-spacing: 3px;
-    color: #f5fdff;
-    -webkit-text-stroke: 2px #075282;
-    text-shadow: 0 5px 0 #03416a, 0 9px 0 #022b4c, 4px 7px 10px #00172a;
-    line-height: 1;
+    font-family:Impact,"Arial Black",sans-serif;
+    font-size:clamp(40px,8vw,86px);
+    letter-spacing:3px;
+    color:#f5fdff;
+    -webkit-text-stroke:2px #075282;
+    text-shadow:0 5px #03416a,0 9px #022b4c,4px 7px 10px #00172a;
+    line-height:1;
 }
+
 .logo-subtitle {
-    color: #6af4ff;
-    font-size: clamp(22px, 4vw, 38px);
-    font-weight: 1000;
-    letter-spacing: 5px;
-    text-shadow: 0 3px #03416a, 0 0 15px #36e9ff;
-    margin-top: 8px;
+    color:#6af4ff;
+    font-size:clamp(22px,4vw,38px);
+    font-weight:1000;
+    letter-spacing:5px;
+    text-shadow:0 3px #03416a,0 0 15px #36e9ff;
+    margin-top:8px;
 }
+
 .logo-tag {
-    display: inline-block;
-    margin-top: 14px;
-    padding: 6px 18px;
-    border: 2px solid #b8faff;
-    background: rgba(2,35,62,.75);
-    font-weight: 900;
-    letter-spacing: 2px;
-    font-size: 13px;
+    display:inline-block;
+    margin-top:14px;
+    padding:6px 18px;
+    border:2px solid #b8faff;
+    background:rgba(2,35,62,.75);
+    font-weight:900;
+    letter-spacing:2px;
+    font-size:13px;
 }
-.menu-buttons { max-width: 520px; margin-top: 24px; }
+
+.menu-buttons { max-width:520px;margin-top:24px; }
+
 .menu-scene button {
-    border-radius: 2px;
-    border: 3px solid #b5f7ff;
-    background: linear-gradient(#168fca, #075b95);
-    box-shadow: 0 5px 0 #02365e, inset 0 2px rgba(255,255,255,.25);
-    text-shadow: 1px 2px #03416a;
-    letter-spacing: 1px;
+    border-radius:2px;
+    border:3px solid #b5f7ff;
+    background:linear-gradient(#168fca,#075b95);
+    box-shadow:0 5px #02365e,inset 0 2px rgba(255,255,255,.25);
+    text-shadow:1px 2px #03416a;
+    letter-spacing:1px;
 }
+
 .menu-scene button:hover {
-    background: linear-gradient(#29c5ed, #0b79b9);
-    box-shadow: 0 5px 0 #02365e, 0 0 16px #4beaff;
+    background:linear-gradient(#29c5ed,#0b79b9);
+    box-shadow:0 5px #02365e,0 0 16px #4beaff;
 }
+
 .main-menu-button {
-    display: block;
-    width: min(100%, 420px);
-    margin: 0 auto 18px !important;
-    padding: 18px 25px !important;
-    font-size: clamp(22px, 3vw, 30px) !important;
+    display:block;
+    width:min(100%,420px);
+    margin:0 auto 18px !important;
+    padding:18px 25px !important;
+    font-size:clamp(22px,3vw,30px) !important;
 }
+
 .menu-settings {
-    border: 2px solid rgba(174,246,255,.55);
-    background: rgba(2,24,45,.78);
-    padding: 12px;
+    border:2px solid rgba(174,246,255,.55);
+    background:rgba(2,24,45,.78);
+    padding:12px;
 }
+
 .setting-row {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    font-weight: bold;
-    color: #d8fbff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+    font-weight:bold;
+    color:#d8fbff;
 }
+
 .setting-row select {
-    max-width: 100%;
-    font-size: 14px;
-    border-radius: 2px;
-    border: 2px solid #83edff;
+    max-width:100%;
+    font-size:14px;
+    border-radius:2px;
+    border:2px solid #83edff;
 }
-.sound-row { margin-top: 8px; }
-.sound-row label { margin: 5px; }
+
+.sound-row { margin-top:8px; }
+.sound-row label { margin:5px; }
+
 #bestRecord {
-    margin: 15px 0 5px;
-    font-weight: bold;
-    color: #dffcff;
-    text-shadow: 0 2px #03223d;
+    margin:15px 0 5px;
+    font-weight:bold;
+    color:#dffcff;
+    text-shadow:0 2px #03223d;
 }
+
 .menu-footer {
-    font-size: 12px;
-    font-weight: bold;
-    letter-spacing: 2px;
-    color: #9cefff;
-    margin-top: 15px;
+    font-size:12px;
+    font-weight:bold;
+    letter-spacing:2px;
+    color:#9cefff;
+    margin-top:15px;
 }
-@media (max-width: 600px) {
-    .menu-scene { min-height: 86vh; padding: 28px 12px 18px; }
-    .logo-title { letter-spacing: 1px; }
-    .logo-subtitle { letter-spacing: 3px; }
-    .setting-row select { width: 100%; }
+
+/* MEMORIZAÇÃO E CONTAGEM */
+#prepOverlay {
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:20;
+    background:rgba(1,12,28,.72);
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    backdrop-filter:blur(3px);
 }
-@media (max-width: 600px) {
-    .board { width: 98vw; gap: 4px; grid-template-columns: repeat(4, minmax(0,1fr)); }
-    .card { border-width: 2px; }
-    .info { font-size: 14px; gap: 7px; }
-    .stat { min-width: unset; padding: 7px 10px; }
-    button, select { font-size: 15px; padding: 10px 14px; }
+
+#prepText {
+    font-size:clamp(48px,12vw,110px);
+    font-weight:1000;
+    color:#eaffff;
+    text-shadow:0 5px #03416a,0 0 30px #42e8f5;
+    animation:prepPop .7s ease;
+}
+
+#prepHint {
+    font-size:clamp(20px,4vw,32px);
+    color:#8ff7ff;
+    font-weight:bold;
+    text-shadow:0 3px #03416a;
+}
+
+@keyframes prepPop {
+    from { transform:scale(.5);opacity:.2; }
+    to { transform:scale(1);opacity:1; }
+}
+
+@media(max-width:600px) {
+    .menu-scene { min-height:86vh;padding:28px 12px 18px; }
+    .logo-title { letter-spacing:1px; }
+    .logo-subtitle { letter-spacing:3px; }
+    .setting-row select { width:100%; }
+    .board { width:98vw;gap:4px;grid-template-columns:repeat(4,minmax(0,1fr)); }
+    .card { border-width:2px; }
+    .info { font-size:14px;gap:7px; }
+    .stat { min-width:unset;padding:7px 10px; }
+    button,select { font-size:15px;padding:10px 14px; }
 }
 </style>
 </head>
+
 <body>
+
+<!-- MENU -->
 <section id="menu" class="screen">
   <div class="menu-scene">
     <div class="menu-logo">
@@ -256,8 +395,14 @@ h1 { animation: titleGlow 3s infinite; }
 
     <div class="menu-buttons">
       <button class="main-menu-button" onclick="startGame()">▶ JOGAR</button>
-      <button class="main-menu-button" onclick="startBrocheMode()">🏅 MODO BROCHE</button>
-      <p style="font-size:14px;color:#d8fbff;margin:-8px 0 16px;">Encontre os 20 pares em até 2 minutos e conquiste seu broche!</p>
+
+      <button class="main-menu-button" onclick="startBrocheMode()">
+        🏅 MODO BROCHE
+      </button>
+
+      <p style="font-size:14px;color:#d8fbff;margin:-8px 0 16px;">
+        Encontre os 20 pares em até 2 minutos e conquiste seu broche!
+      </p>
 
       <div class="menu-settings">
         <div class="setting-row">
@@ -268,42 +413,65 @@ h1 { animation: titleGlow 3s infinite; }
             <option value="20" selected>DIFÍCIL — 20 PARES</option>
           </select>
         </div>
+
         <div class="setting-row sound-row">
-          <label><input id="soundToggle" type="checkbox" checked> 🔊 SONS ATIVADOS</label>
+          <label>
+            <input id="soundToggle" type="checkbox" checked>
+            🔊 SONS ATIVADOS
+          </label>
         </div>
       </div>
+
       <p id="bestRecord">Recorde: --</p>
       <p class="menu-footer">ENCONTRE OS PARES • TREINE SUA MEMÓRIA</p>
     </div>
   </div>
 </section>
 
+<!-- JOGO -->
 <section id="game">
   <h1>⛏ ENCONTRE OS PARES! ⛏</h1>
+
   <div class="info">
     <span class="stat" id="attempts">Tentativas: 0</span>
     <span class="stat" id="pairs">Pares: 0/20</span>
     <span class="stat" id="timer">Tempo: 00:00</span>
   </div>
+
   <div class="board" id="board"></div>
-  <button onclick="startGame()">↻ REINICIAR</button>
+
+  <div id="prepOverlay">
+    <div id="prepText">MEMORIZE!</div>
+    <div id="prepHint">Observe as cartas!</div>
+  </div>
+
+  <button onclick="restartCurrentMode()">↻ REINICIAR</button>
   <button onclick="backMenu()">⌂ MENU</button>
 </section>
 
+<!-- VITÓRIA / DERROTA -->
 <section id="victory" class="screen">
   <div class="panel">
     <h1>🏆 VITÓRIA! 🏆</h1>
+
     <h2 id="victorySubtitle">Você encontrou todos os pares!</h2>
-    <div id="brocheAward" style="display:none;font-size:76px;margin:12px auto;filter:drop-shadow(0 0 16px #42e8f5);">🏅</div>
+
+    <div id="brocheAward"
+      style="display:none;font-size:76px;margin:12px auto;filter:drop-shadow(0 0 16px #42e8f5);">
+      🏅
+    </div>
+
     <p id="brocheMessage" style="font-weight:bold;color:#8ff7ff;"></p>
     <p id="finalStats"></p>
     <h2 id="recordMessage"></h2>
-    <button onclick="gameMode === 'broche' ? startBrocheMode() : startGame()">JOGAR NOVAMENTE</button>
+
+    <button onclick="restartCurrentMode()">JOGAR NOVAMENTE</button>
     <button onclick="backMenu()">MENU INICIAL</button>
   </div>
 </section>
 
 <script>
+// Posições dos pares na imagem sprite
 const groups = [
   [0,1], [2,3], [4,9],
   [5,6], [7,8], [10,11],
@@ -314,297 +482,502 @@ const groups = [
   [35,36], [37,38]
 ];
 
-let cards = [], firstCard = null, locked = false;
-let attempts = 0, pairs = 0, matched = 0;
-let seconds = 0, timerInterval = null, gameFinished = false;
+let cards = [];
+let firstCard = null;
+let locked = false;
+
+let attempts = 0;
+let pairs = 0;
+let matched = 0;
+
+let seconds = 0;
+let timerInterval = null;
+let gameFinished = false;
+
 let activePairs = 20;
 let gameMode = "normal";
 let timeLimit = 0;
 
+let prepTimeouts = [];
+
+// EMBARALHAR
 function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-}
-
-function playSound(type) {
-  if (!document.getElementById("soundToggle").checked) return;
-  try {
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    const ctx = new AudioCtx();
-    const notes = { flip: [440, .07], match: [660, .14], wrong: [180, .2], win: [880, .28] };
-    const [freq, duration] = notes[type] || notes.flip;
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = type === "wrong" ? "triangle" : "sine";
-    osc.frequency.value = freq;
-    if (type === "win") {
-      osc.frequency.setValueAtTime(880, ctx.currentTime);
-      osc.frequency.linearRampToValueAtTime(1175, ctx.currentTime + duration);
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
     }
-    gain.gain.setValueAtTime(.12, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(.001, ctx.currentTime + duration);
-    osc.connect(gain); gain.connect(ctx.destination);
-    osc.start(); osc.stop(ctx.currentTime + duration);
-    osc.onended = () => ctx.close();
-  } catch(e) {}
+    return array;
 }
 
+// SONS
+function playSound(type) {
+    if (!document.getElementById("soundToggle").checked) return;
+
+    try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        const ctx = new AudioCtx();
+
+        const notes = {
+            flip:[440,.07],
+            match:[660,.14],
+            wrong:[180,.2],
+            win:[880,.28]
+        };
+
+        const [freq,duration] = notes[type] || notes.flip;
+
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = type === "wrong" ? "triangle" : "sine";
+        osc.frequency.value = freq;
+
+        if (type === "win") {
+            osc.frequency.setValueAtTime(880,ctx.currentTime);
+            osc.frequency.linearRampToValueAtTime(1175,ctx.currentTime+duration);
+        }
+
+        gain.gain.setValueAtTime(.12,ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+duration);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start();
+        osc.stop(ctx.currentTime+duration);
+
+        osc.onended = () => ctx.close();
+    } catch(e) {}
+}
+
+// FORMATO DO TEMPO
 function formatTime(total) {
-  const mins = Math.floor(total / 60).toString().padStart(2, "0");
-  const secs = (total % 60).toString().padStart(2, "0");
-  return `${mins}:${secs}`;
+    const mins = Math.floor(total/60).toString().padStart(2,"0");
+    const secs = (total%60).toString().padStart(2,"0");
+    return `${mins}:${secs}`;
 }
 
+// RECORDES
 function getRecordKey() {
-  return "minecraftMemoryRecord_" + document.getElementById("difficulty").value;
+    return "minecraftMemoryRecord_" +
+        document.getElementById("difficulty").value;
 }
 
 function showRecord() {
-  const record = localStorage.getItem(getRecordKey());
-  document.getElementById("bestRecord").textContent = record
-    ? `Recorde (${document.getElementById("difficulty").selectedOptions[0].text}): ${record}`
-    : "Recorde: ainda não definido";
+    const record = localStorage.getItem(getRecordKey());
+
+    document.getElementById("bestRecord").textContent = record
+        ? `Recorde (${document.getElementById("difficulty").selectedOptions[0].text}): ${record}`
+        : "Recorde: ainda não definido";
 }
-document.getElementById("difficulty").addEventListener("change", showRecord);
+
+document.getElementById("difficulty").addEventListener("change",showRecord);
 showRecord();
 
+// CRIAR CARTAS
 function createCards() {
-  cards = [];
-  const chosenGroups = groups.slice(0, activePairs);
-  chosenGroups.forEach((group, id) => {
-    group.forEach(imageIndex => cards.push({ id, image: imageIndex }));
-  });
-  shuffle(cards);
+    cards = [];
+
+    const chosenGroups = groups.slice(0,activePairs);
+
+    chosenGroups.forEach((group,id) => {
+        group.forEach(imageIndex => {
+            cards.push({id,image:imageIndex});
+        });
+    });
+
+    shuffle(cards);
 }
 
+// CRIAR TABULEIRO
+function buildBoard(showCards=false) {
+    const board = document.getElementById("board");
+    board.innerHTML = "";
+
+    cards.forEach((card,index) => {
+        const element = document.createElement("div");
+        element.className = "card" + (showCards ? " revealed" : "");
+
+        const back = document.createElement("div");
+        back.className = "card-back";
+
+        const front = document.createElement("div");
+        front.className = "card-front";
+
+        const column = card.image % 5;
+        const row = Math.floor(card.image/5);
+
+        front.style.backgroundPosition =
+            `${(column/4)*100}% ${(row/7)*100}%`;
+
+        element.append(back,front);
+
+        element.addEventListener("click",() => flipCard(element,index));
+
+        board.appendChild(element);
+    });
+}
+
+// CRONÔMETRO
 function startTimer() {
-  clearInterval(timerInterval);
-  seconds = 0;
-  document.getElementById("timer").textContent =
-    gameMode === "broche" ? "Restante: " + formatTime(timeLimit) : "Tempo: 00:00";
+    clearInterval(timerInterval);
+    seconds = 0;
 
-  timerInterval = setInterval(() => {
-    if (gameFinished) return;
-    seconds++;
+    document.getElementById("timer").textContent =
+        gameMode === "broche"
+        ? "Restante: " + formatTime(timeLimit)
+        : "Tempo: 00:00";
 
-    if (gameMode === "broche") {
-      const remaining = timeLimit - seconds;
-      document.getElementById("timer").textContent = "Restante: " + formatTime(Math.max(0, remaining));
-      if (remaining <= 0) timeExpired();
-    } else {
-      document.getElementById("timer").textContent = "Tempo: " + formatTime(seconds);
-    }
-  }, 1000);
+    timerInterval = setInterval(() => {
+        if (gameFinished) return;
+
+        seconds++;
+
+        if (gameMode === "broche") {
+            const remaining = timeLimit-seconds;
+
+            document.getElementById("timer").textContent =
+                "Restante: " + formatTime(Math.max(0,remaining));
+
+            if (remaining <= 0) {
+                timeExpired();
+            }
+        } else {
+            document.getElementById("timer").textContent =
+                "Tempo: " + formatTime(seconds);
+        }
+    },1000);
 }
 
-function buildBoard() {
-  const board = document.getElementById("board");
-  board.innerHTML = "";
+// FASE DE MEMORIZAÇÃO E CONTAGEM
+function prepareRound() {
+    prepTimeouts.forEach(clearTimeout);
+    prepTimeouts = [];
 
-  cards.forEach((card, index) => {
-    const element = document.createElement("div");
-    element.className = "card";
+    locked = true;
+    gameFinished = false;
+    seconds = 0;
 
-    const back = document.createElement("div");
-    back.className = "card-back";
+    document.getElementById("timer").textContent =
+        gameMode === "broche" ? "Restante: 02:00" : "Tempo: 00:00";
 
-    const front = document.createElement("div");
-    front.className = "card-front";
+    // Mostrar todas as cartas
+    buildBoard(true);
 
-    const column = card.image % 5;
-    const row = Math.floor(card.image / 5);
-    front.style.backgroundPosition = `${(column / 4) * 100}% ${(row / 7) * 100}%`;
+    const overlay = document.getElementById("prepOverlay");
+    const text = document.getElementById("prepText");
+    const hint = document.getElementById("prepHint");
 
-    element.append(back, front);
-    element.addEventListener("click", () => flipCard(element, index));
-    board.appendChild(element);
-  });
+    overlay.style.display = "flex";
+    text.textContent = "MEMORIZE!";
+    hint.textContent = "Observe as cartas!";
+
+    // 10 segundos para memorizar
+    prepTimeouts.push(setTimeout(() => {
+        if (gameFinished) return;
+
+        // Esconder as cartas
+        document.querySelectorAll(".card").forEach(card => {
+            card.classList.remove("revealed");
+        });
+
+        text.textContent = "3";
+        hint.textContent = "Prepare-se!";
+
+        prepTimeouts.push(setTimeout(() => {
+            if (!gameFinished) text.textContent = "2";
+        },1000));
+
+        prepTimeouts.push(setTimeout(() => {
+            if (!gameFinished) text.textContent = "1";
+        },2000));
+
+        // Começar
+        prepTimeouts.push(setTimeout(() => {
+            if (gameFinished) return;
+
+            text.textContent = "VALENDO!";
+            hint.textContent = "Encontre os pares!";
+
+            locked = false;
+
+            // Cronômetro começa apenas aqui
+            startTimer();
+
+            prepTimeouts.push(setTimeout(() => {
+                if (!gameFinished) {
+                    overlay.style.display = "none";
+                }
+            },650));
+
+        },3000));
+
+    },10000));
 }
 
+// INICIAR MODO NORMAL
 function startGame() {
-  gameMode = "normal";
-  timeLimit = 0;
+    gameMode = "normal";
+    timeLimit = 0;
 
-  document.getElementById("game").querySelector("h1").textContent = "⛏ ENCONTRE OS PARES! ⛏";
-  document.getElementById("victorySubtitle").textContent = "Você encontrou todos os pares!";
-  document.getElementById("brocheAward").style.display = "none";
-  document.getElementById("brocheMessage").textContent = "";
+    document.getElementById("game").querySelector("h1").textContent =
+        "⛏ ENCONTRE OS PARES! ⛏";
 
-  activePairs = Number(document.getElementById("difficulty").value);
+    document.getElementById("victorySubtitle").textContent =
+        "Você encontrou todos os pares!";
 
-  document.getElementById("menu").style.display = "none";
-  document.getElementById("victory").style.display = "none";
-  document.getElementById("game").style.display = "block";
+    document.getElementById("brocheAward").style.display = "none";
+    document.getElementById("brocheMessage").textContent = "";
 
-  attempts = pairs = matched = 0;
-  firstCard = null;
-  locked = false;
-  gameFinished = false;
+    activePairs = Number(document.getElementById("difficulty").value);
 
-  updateInfo();
-  createCards();
-  buildBoard();
-  startTimer();
-}
+    document.getElementById("menu").style.display = "none";
+    document.getElementById("victory").style.display = "none";
+    document.getElementById("game").style.display = "block";
 
-function startBrocheMode() {
-  gameMode = "broche";
-  timeLimit = 120;
-  activePairs = 20;
-
-  document.getElementById("game").querySelector("h1").textContent = "🏅 DESAFIO DO BROCHE 🏅";
-  document.getElementById("victorySubtitle").textContent = "DESAFIO CONCLUÍDO!";
-  document.getElementById("brocheAward").style.display = "none";
-  document.getElementById("brocheMessage").textContent = "";
-
-  document.getElementById("menu").style.display = "none";
-  document.getElementById("victory").style.display = "none";
-  document.getElementById("game").style.display = "block";
-
-  attempts = pairs = matched = 0;
-  firstCard = null;
-  locked = false;
-  gameFinished = false;
-
-  updateInfo();
-  createCards();
-  buildBoard();
-  startTimer();
-}
-
-function timeExpired() {
-  if (gameFinished) return;
-
-  gameFinished = true;
-  clearInterval(timerInterval);
-
-  document.getElementById("game").style.display = "none";
-  document.getElementById("victory").style.display = "flex";
-
-  document.querySelector("#victory h1").textContent = "⏰ TEMPO ESGOTADO!";
-  document.getElementById("victorySubtitle").textContent = "Quase lá! Tente novamente para conquistar o broche.";
-  document.getElementById("brocheAward").style.display = "none";
-  document.getElementById("brocheMessage").textContent = "Você precisa encontrar os 20 pares em 2 minutos.";
-  document.getElementById("finalStats").textContent = `Você encontrou ${pairs} de 20 pares.`;
-  document.getElementById("recordMessage").textContent = "";
-
-  playSound("wrong");
-}
-
-function flipCard(element, index) {
-  if (locked || gameFinished || element.classList.contains("revealed") || element.classList.contains("matched")) return;
-
-  element.classList.add("revealed");
-  playSound("flip");
-
-  if (firstCard === null) {
-    firstCard = { element, index };
-    return;
-  }
-
-  attempts++;
-  const secondCard = { element, index };
-  locked = true;
-
-  if (cards[firstCard.index].id === cards[secondCard.index].id) {
-    firstCard.element.classList.add("matched");
-    secondCard.element.classList.add("matched");
-
+    attempts = pairs = matched = 0;
     firstCard = null;
-    locked = false;
+    locked = true;
+    gameFinished = false;
 
-    pairs++;
-    matched += 2;
-    playSound("match");
     updateInfo();
-
-    if (matched === activePairs * 2) setTimeout(victory, 650);
-  } else {
-    playSound("wrong");
-    updateInfo();
-
-    setTimeout(() => {
-      firstCard.element.classList.remove("revealed");
-      secondCard.element.classList.remove("revealed");
-      firstCard = null;
-      locked = false;
-    }, 850);
-  }
+    createCards();
+    prepareRound();
 }
 
-function updateInfo() {
-  document.getElementById("attempts").textContent = "Tentativas: " + attempts;
-  document.getElementById("pairs").textContent = `Pares: ${pairs}/${activePairs}`;
+// MODO BROCHE
+function startBrocheMode() {
+    gameMode = "broche";
+    timeLimit = 120;
+    activePairs = 20;
+
+    document.getElementById("game").querySelector("h1").textContent =
+        "🏅 DESAFIO DO BROCHE 🏅";
+
+    document.getElementById("victorySubtitle").textContent =
+        "DESAFIO CONCLUÍDO!";
+
+    document.getElementById("brocheAward").style.display = "none";
+    document.getElementById("brocheMessage").textContent = "";
+
+    document.getElementById("menu").style.display = "none";
+    document.getElementById("victory").style.display = "none";
+    document.getElementById("game").style.display = "block";
+
+    attempts = pairs = matched = 0;
+    firstCard = null;
+    locked = true;
+    gameFinished = false;
+
+    updateInfo();
+    createCards();
+    prepareRound();
 }
 
-function victory() {
-  if (gameFinished) return;
+// REINICIAR MODO ATUAL
+function restartCurrentMode() {
+    if (gameMode === "broche") {
+        startBrocheMode();
+    } else {
+        startGame();
+    }
+}
 
-  gameFinished = true;
-  clearInterval(timerInterval);
-  playSound("win");
+// TEMPO ESGOTADO
+function timeExpired() {
+    if (gameFinished) return;
 
-  document.getElementById("game").style.display = "none";
-  document.getElementById("victory").style.display = "flex";
+    gameFinished = true;
+    clearInterval(timerInterval);
 
-  if (gameMode === "broche") {
-    document.querySelector("#victory h1").textContent = "🏆 BROCHE CONQUISTADO! 🏆";
-    document.getElementById("victorySubtitle").textContent = "Você é rápido demais! Desafio completo!";
-    document.getElementById("brocheAward").style.display = "block";
-    document.getElementById("brocheMessage").textContent = "🏅 BROCHE DA MEMÓRIA DESBLOQUEADO!";
+    document.getElementById("game").style.display = "none";
+    document.getElementById("victory").style.display = "flex";
+
+    document.querySelector("#victory h1").textContent =
+        "⏰ TEMPO ESGOTADO!";
+
+    document.getElementById("victorySubtitle").textContent =
+        "Quase lá! Tente novamente para conquistar o broche.";
+
+    document.getElementById("brocheAward").style.display = "none";
+
+    document.getElementById("brocheMessage").textContent =
+        "Você precisa encontrar os 20 pares em 2 minutos.";
+
     document.getElementById("finalStats").textContent =
-      `20 pares encontrados em ${formatTime(seconds)} e ${attempts} tentativas!`;
+        `Você encontrou ${pairs} de 20 pares.`;
 
-    localStorage.setItem("minecraftMemoryBrocheUnlocked", "true");
-    document.getElementById("recordMessage").textContent = "Seu broche foi salvo neste navegador!";
-    return;
-  }
+    document.getElementById("recordMessage").textContent = "";
 
-  document.querySelector("#victory h1").textContent = "🏆 VITÓRIA! 🏆";
-  document.getElementById("victorySubtitle").textContent = "Você encontrou todos os pares!";
-  document.getElementById("brocheAward").style.display = "none";
-  document.getElementById("brocheMessage").textContent = "";
-  document.getElementById("finalStats").textContent =
-    `Você venceu em ${attempts} tentativas e ${formatTime(seconds)}!`;
-
-  const key = getRecordKey();
-  const previous = localStorage.getItem(key);
-  const currentRecord = `${formatTime(seconds)} — ${attempts} tentativas`;
-
-  let newRecord = false;
-
-  if (!previous) {
-    newRecord = true;
-  } else {
-    const oldTime = previous.split(" — ")[0].split(":").reduce((a, v) => a * 60 + Number(v), 0);
-    const oldAttempts = Number(previous.match(/(\d+) tentativas/)?.[1] || Infinity);
-    newRecord = seconds < oldTime || (seconds === oldTime && attempts < oldAttempts);
-  }
-
-  if (newRecord) localStorage.setItem(key, currentRecord);
-
-  document.getElementById("recordMessage").textContent =
-    newRecord ? "✨ NOVO RECORDE! ✨" : `Recorde: ${localStorage.getItem(key)}`;
-
-  showRecord();
+    playSound("wrong");
 }
 
+// VIRAR CARTA
+function flipCard(element,index) {
+    if (locked || gameFinished ||
+        element.classList.contains("revealed") ||
+        element.classList.contains("matched")) return;
+
+    element.classList.add("revealed");
+    playSound("flip");
+
+    if (firstCard === null) {
+        firstCard = {element,index};
+        return;
+    }
+
+    attempts++;
+
+    const secondCard = {element,index};
+    locked = true;
+
+    // ACERTO
+    if (cards[firstCard.index].id === cards[secondCard.index].id) {
+        firstCard.element.classList.add("matched");
+        secondCard.element.classList.add("matched");
+
+        firstCard = null;
+        locked = false;
+
+        pairs++;
+        matched += 2;
+
+        playSound("match");
+        updateInfo();
+
+        if (matched === activePairs*2) {
+            setTimeout(victory,650);
+        }
+
+    // ERRO
+    } else {
+        playSound("wrong");
+        updateInfo();
+
+        setTimeout(() => {
+            firstCard.element.classList.remove("revealed");
+            secondCard.element.classList.remove("revealed");
+
+            firstCard = null;
+            locked = false;
+        },850);
+    }
+}
+
+// ATUALIZAR INFORMAÇÕES
+function updateInfo() {
+    document.getElementById("attempts").textContent =
+        "Tentativas: " + attempts;
+
+    document.getElementById("pairs").textContent =
+        `Pares: ${pairs}/${activePairs}`;
+}
+
+// VITÓRIA
+function victory() {
+    if (gameFinished) return;
+
+    gameFinished = true;
+    clearInterval(timerInterval);
+    playSound("win");
+
+    document.getElementById("game").style.display = "none";
+    document.getElementById("victory").style.display = "flex";
+
+    // VITÓRIA MODO BROCHE
+    if (gameMode === "broche") {
+        document.querySelector("#victory h1").textContent =
+            "🏆 BROCHE CONQUISTADO! 🏆";
+
+        document.getElementById("victorySubtitle").textContent =
+            "Você é rápido demais! Desafio completo!";
+
+        document.getElementById("brocheAward").style.display = "block";
+
+        document.getElementById("brocheMessage").textContent =
+            "🏅 BROCHE DA MEMÓRIA DESBLOQUEADO!";
+
+        document.getElementById("finalStats").textContent =
+            `20 pares encontrados em ${formatTime(seconds)} e ${attempts} tentativas!`;
+
+        localStorage.setItem("minecraftMemoryBrocheUnlocked","true");
+
+        document.getElementById("recordMessage").textContent =
+            "Seu broche foi salvo neste navegador!";
+
+        return;
+    }
+
+    // VITÓRIA NORMAL
+    document.querySelector("#victory h1").textContent = "🏆 VITÓRIA! 🏆";
+
+    document.getElementById("victorySubtitle").textContent =
+        "Você encontrou todos os pares!";
+
+    document.getElementById("brocheAward").style.display = "none";
+    document.getElementById("brocheMessage").textContent = "";
+
+    document.getElementById("finalStats").textContent =
+        `Você venceu em ${attempts} tentativas e ${formatTime(seconds)}!`;
+
+    const key = getRecordKey();
+    const previous = localStorage.getItem(key);
+
+    const currentRecord =
+        `${formatTime(seconds)} — ${attempts} tentativas`;
+
+    let newRecord = false;
+
+    if (!previous) {
+        newRecord = true;
+    } else {
+        const oldTime = previous.split(" — ")[0]
+            .split(":")
+            .reduce((a,v) => a*60+Number(v),0);
+
+        const oldAttempts = Number(
+            previous.match(/(\d+) tentativas/)?.[1] || Infinity
+        );
+
+        newRecord = seconds < oldTime ||
+            (seconds === oldTime && attempts < oldAttempts);
+    }
+
+    if (newRecord) {
+        localStorage.setItem(key,currentRecord);
+    }
+
+    document.getElementById("recordMessage").textContent =
+        newRecord
+        ? "✨ NOVO RECORDE! ✨"
+        : `Recorde: ${localStorage.getItem(key)}`;
+
+    showRecord();
+}
+
+// VOLTAR AO MENU
 function backMenu() {
-  clearInterval(timerInterval);
-  gameFinished = true;
+    prepTimeouts.forEach(clearTimeout);
+    prepTimeouts = [];
 
-  document.getElementById("game").style.display = "none";
-  document.getElementById("victory").style.display = "none";
+    clearInterval(timerInterval);
+    gameFinished = true;
 
-  document.querySelector("#victory h1").textContent = "🏆 VITÓRIA! 🏆";
-  document.getElementById("game").querySelector("h1").textContent = "⛏ ENCONTRE OS PARES! ⛏";
+    document.getElementById("prepOverlay").style.display = "none";
+    document.getElementById("game").style.display = "none";
+    document.getElementById("victory").style.display = "none";
 
-  document.getElementById("menu").style.display = "flex";
-  showRecord();
+    document.querySelector("#victory h1").textContent =
+        "🏆 VITÓRIA! 🏆";
+
+    document.getElementById("game").querySelector("h1").textContent =
+        "⛏ ENCONTRE OS PARES! ⛏";
+
+    document.getElementById("menu").style.display = "flex";
+
+    showRecord();
 }
 </script>
+
 </body>
 </html>
