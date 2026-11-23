@@ -245,7 +245,6 @@ h1 { animation: titleGlow 3s infinite; }
 </style>
 </head>
 <body>
-
 <section id="menu" class="screen">
   <div class="menu-scene">
     <div class="menu-logo">
@@ -257,6 +256,9 @@ h1 { animation: titleGlow 3s infinite; }
 
     <div class="menu-buttons">
       <button class="main-menu-button" onclick="startGame()">▶ JOGAR</button>
+      <button class="main-menu-button" onclick="startBrocheMode()">🏅 MODO BROCHE</button>
+      <p style="font-size:14px;color:#d8fbff;margin:-8px 0 16px;">Encontre os 20 pares em até 2 minutos e conquiste seu broche!</p>
+
       <div class="menu-settings">
         <div class="setting-row">
           <span>⚔ DIFICULDADE</span>
@@ -291,26 +293,33 @@ h1 { animation: titleGlow 3s infinite; }
 <section id="victory" class="screen">
   <div class="panel">
     <h1>🏆 VITÓRIA! 🏆</h1>
-    <h2>Você encontrou todos os pares!</h2>
+    <h2 id="victorySubtitle">Você encontrou todos os pares!</h2>
+    <div id="brocheAward" style="display:none;font-size:76px;margin:12px auto;filter:drop-shadow(0 0 16px #42e8f5);">🏅</div>
+    <p id="brocheMessage" style="font-weight:bold;color:#8ff7ff;"></p>
     <p id="finalStats"></p>
     <h2 id="recordMessage"></h2>
-    <button onclick="startGame()">JOGAR NOVAMENTE</button>
+    <button onclick="gameMode === 'broche' ? startBrocheMode() : startGame()">JOGAR NOVAMENTE</button>
     <button onclick="backMenu()">MENU INICIAL</button>
   </div>
 </section>
 
 <script>
 const groups = [
-  [0,1], [2,3], [4,9], [5,6], [7,8],
-  [10,11], [12,13], [14,19], [15,16], [17,18],
-  [20,21], [22,23], [24,29], [25,26], [27,28],
-  [30,31], [32,33], [34,39], [35,36], [37,38]
+  [0,1], [2,3], [4,9],
+  [5,6], [7,8], [10,11],
+  [12,13], [14,19], [15,16],
+  [17,18], [20,21], [22,23],
+  [24,29], [25,26], [27,28],
+  [30,31], [32,33], [34,39],
+  [35,36], [37,38]
 ];
 
 let cards = [], firstCard = null, locked = false;
 let attempts = 0, pairs = 0, matched = 0;
 let seconds = 0, timerInterval = null, gameFinished = false;
 let activePairs = 20;
+let gameMode = "normal";
+let timeLimit = 0;
 
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -374,30 +383,34 @@ function createCards() {
 function startTimer() {
   clearInterval(timerInterval);
   seconds = 0;
-  document.getElementById("timer").textContent = "Tempo: 00:00";
+  document.getElementById("timer").textContent =
+    gameMode === "broche" ? "Restante: " + formatTime(timeLimit) : "Tempo: 00:00";
+
   timerInterval = setInterval(() => {
     if (gameFinished) return;
     seconds++;
-    document.getElementById("timer").textContent = "Tempo: " + formatTime(seconds);
+
+    if (gameMode === "broche") {
+      const remaining = timeLimit - seconds;
+      document.getElementById("timer").textContent = "Restante: " + formatTime(Math.max(0, remaining));
+      if (remaining <= 0) timeExpired();
+    } else {
+      document.getElementById("timer").textContent = "Tempo: " + formatTime(seconds);
+    }
   }, 1000);
 }
 
-function startGame() {
-  activePairs = Number(document.getElementById("difficulty").value);
-  document.getElementById("menu").style.display = "none";
-  document.getElementById("victory").style.display = "none";
-  document.getElementById("game").style.display = "block";
-  attempts = pairs = matched = 0;
-  firstCard = null; locked = false; gameFinished = false;
-  updateInfo(); createCards(); startTimer();
-
+function buildBoard() {
   const board = document.getElementById("board");
   board.innerHTML = "";
+
   cards.forEach((card, index) => {
     const element = document.createElement("div");
     element.className = "card";
+
     const back = document.createElement("div");
     back.className = "card-back";
+
     const front = document.createElement("div");
     front.className = "card-front";
 
@@ -411,8 +424,79 @@ function startGame() {
   });
 }
 
+function startGame() {
+  gameMode = "normal";
+  timeLimit = 0;
+
+  document.getElementById("game").querySelector("h1").textContent = "⛏ ENCONTRE OS PARES! ⛏";
+  document.getElementById("victorySubtitle").textContent = "Você encontrou todos os pares!";
+  document.getElementById("brocheAward").style.display = "none";
+  document.getElementById("brocheMessage").textContent = "";
+
+  activePairs = Number(document.getElementById("difficulty").value);
+
+  document.getElementById("menu").style.display = "none";
+  document.getElementById("victory").style.display = "none";
+  document.getElementById("game").style.display = "block";
+
+  attempts = pairs = matched = 0;
+  firstCard = null;
+  locked = false;
+  gameFinished = false;
+
+  updateInfo();
+  createCards();
+  buildBoard();
+  startTimer();
+}
+
+function startBrocheMode() {
+  gameMode = "broche";
+  timeLimit = 120;
+  activePairs = 20;
+
+  document.getElementById("game").querySelector("h1").textContent = "🏅 DESAFIO DO BROCHE 🏅";
+  document.getElementById("victorySubtitle").textContent = "DESAFIO CONCLUÍDO!";
+  document.getElementById("brocheAward").style.display = "none";
+  document.getElementById("brocheMessage").textContent = "";
+
+  document.getElementById("menu").style.display = "none";
+  document.getElementById("victory").style.display = "none";
+  document.getElementById("game").style.display = "block";
+
+  attempts = pairs = matched = 0;
+  firstCard = null;
+  locked = false;
+  gameFinished = false;
+
+  updateInfo();
+  createCards();
+  buildBoard();
+  startTimer();
+}
+
+function timeExpired() {
+  if (gameFinished) return;
+
+  gameFinished = true;
+  clearInterval(timerInterval);
+
+  document.getElementById("game").style.display = "none";
+  document.getElementById("victory").style.display = "flex";
+
+  document.querySelector("#victory h1").textContent = "⏰ TEMPO ESGOTADO!";
+  document.getElementById("victorySubtitle").textContent = "Quase lá! Tente novamente para conquistar o broche.";
+  document.getElementById("brocheAward").style.display = "none";
+  document.getElementById("brocheMessage").textContent = "Você precisa encontrar os 20 pares em 2 minutos.";
+  document.getElementById("finalStats").textContent = `Você encontrou ${pairs} de 20 pares.`;
+  document.getElementById("recordMessage").textContent = "";
+
+  playSound("wrong");
+}
+
 function flipCard(element, index) {
   if (locked || gameFinished || element.classList.contains("revealed") || element.classList.contains("matched")) return;
+
   element.classList.add("revealed");
   playSound("flip");
 
@@ -428,18 +512,25 @@ function flipCard(element, index) {
   if (cards[firstCard.index].id === cards[secondCard.index].id) {
     firstCard.element.classList.add("matched");
     secondCard.element.classList.add("matched");
-    firstCard = null; locked = false;
-    pairs++; matched += 2;
+
+    firstCard = null;
+    locked = false;
+
+    pairs++;
+    matched += 2;
     playSound("match");
     updateInfo();
+
     if (matched === activePairs * 2) setTimeout(victory, 650);
   } else {
     playSound("wrong");
     updateInfo();
+
     setTimeout(() => {
       firstCard.element.classList.remove("revealed");
       secondCard.element.classList.remove("revealed");
-      firstCard = null; locked = false;
+      firstCard = null;
+      locked = false;
     }, 850);
   }
 }
@@ -451,33 +542,66 @@ function updateInfo() {
 
 function victory() {
   if (gameFinished) return;
+
   gameFinished = true;
   clearInterval(timerInterval);
   playSound("win");
+
   document.getElementById("game").style.display = "none";
   document.getElementById("victory").style.display = "flex";
-  document.getElementById("finalStats").textContent = `Você venceu em ${attempts} tentativas e ${formatTime(seconds)}!`;
+
+  if (gameMode === "broche") {
+    document.querySelector("#victory h1").textContent = "🏆 BROCHE CONQUISTADO! 🏆";
+    document.getElementById("victorySubtitle").textContent = "Você é rápido demais! Desafio completo!";
+    document.getElementById("brocheAward").style.display = "block";
+    document.getElementById("brocheMessage").textContent = "🏅 BROCHE DA MEMÓRIA DESBLOQUEADO!";
+    document.getElementById("finalStats").textContent =
+      `20 pares encontrados em ${formatTime(seconds)} e ${attempts} tentativas!`;
+
+    localStorage.setItem("minecraftMemoryBrocheUnlocked", "true");
+    document.getElementById("recordMessage").textContent = "Seu broche foi salvo neste navegador!";
+    return;
+  }
+
+  document.querySelector("#victory h1").textContent = "🏆 VITÓRIA! 🏆";
+  document.getElementById("victorySubtitle").textContent = "Você encontrou todos os pares!";
+  document.getElementById("brocheAward").style.display = "none";
+  document.getElementById("brocheMessage").textContent = "";
+  document.getElementById("finalStats").textContent =
+    `Você venceu em ${attempts} tentativas e ${formatTime(seconds)}!`;
 
   const key = getRecordKey();
   const previous = localStorage.getItem(key);
   const currentRecord = `${formatTime(seconds)} — ${attempts} tentativas`;
+
   let newRecord = false;
-  if (!previous) newRecord = true;
-  else {
-    const oldTime = previous.split(" — ")[0].split(":").reduce((a,v)=>a*60+Number(v),0);
+
+  if (!previous) {
+    newRecord = true;
+  } else {
+    const oldTime = previous.split(" — ")[0].split(":").reduce((a, v) => a * 60 + Number(v), 0);
     const oldAttempts = Number(previous.match(/(\d+) tentativas/)?.[1] || Infinity);
     newRecord = seconds < oldTime || (seconds === oldTime && attempts < oldAttempts);
   }
+
   if (newRecord) localStorage.setItem(key, currentRecord);
-  document.getElementById("recordMessage").textContent = newRecord ? "✨ NOVO RECORDE! ✨" : `Recorde: ${localStorage.getItem(key)}`;
+
+  document.getElementById("recordMessage").textContent =
+    newRecord ? "✨ NOVO RECORDE! ✨" : `Recorde: ${localStorage.getItem(key)}`;
+
   showRecord();
 }
 
 function backMenu() {
   clearInterval(timerInterval);
   gameFinished = true;
+
   document.getElementById("game").style.display = "none";
   document.getElementById("victory").style.display = "none";
+
+  document.querySelector("#victory h1").textContent = "🏆 VITÓRIA! 🏆";
+  document.getElementById("game").querySelector("h1").textContent = "⛏ ENCONTRE OS PARES! ⛏";
+
   document.getElementById("menu").style.display = "flex";
   showRecord();
 }
