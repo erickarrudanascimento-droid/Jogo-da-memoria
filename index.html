@@ -125,10 +125,9 @@ button:active {
     display: none;
     width: 100%;
     height: 100%;
-    background-image: url("dasd.jpg");
+    background-image: url("dasd-cortada.jpg");
     background-size: 500% 800%;
     background-repeat: no-repeat;
-    background-position: 0% 0%;
 }
 
 .card.revealed .card-back,
@@ -315,14 +314,13 @@ function startGame() {
         front.className = "card-front";
 
         // POSIÇÃO CORRETA NA IMAGEM SPRITE
-        const column = card.image % 5;
-        const row = Math.floor(card.image / 5);
+       const column = card.image % 5;
+const row = Math.floor(card.image / 5);
 
-        const x = (column / 4) * 100;
-        const y = (row / 7) * 100;
+const x = (column / 4) * 100;
+const y = (row / 7) * 100;
 
-        front.style.backgroundPosition = `${x}% ${y}%`;
-
+front.style.backgroundPosition = `${x}% ${y}%`;
         element.appendChild(back);
         element.appendChild(front);
 
