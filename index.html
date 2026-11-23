@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -484,6 +484,34 @@ input[type="text"]:focus {
     .stat { min-width:unset;padding:7px 10px; }
     button,select { font-size:15px;padding:10px 14px; }
 }
+
+/* NOVOS EFEITOS: PORTAL, XP, MASCOTE E CONFETES */
+:root { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath fill='%23d9faff' stroke='%23052e50' stroke-width='2' d='M5 3 11 5 9 11 14 16 11 20 7 16 3 12Z'/%3E%3Cpath fill='%2342e8f5' stroke='%23052e50' stroke-width='2' d='m11 5 9-3 3 3-3 4-8 2Z'/%3E%3Cpath fill='%23fff' d='m5 3 4 7-3 3-3-3Z'/%3E%3C/svg%3E") 4 4, auto; }
+button, a, select, input, .card { cursor:pointer; }
+#portalOverlay { display:none; position:fixed; inset:0; z-index:100; overflow:hidden; background:radial-gradient(circle,#9b45ff 0%,#3c087b 24%,#090019 65%,#000 100%); align-items:center;justify-content:center; flex-direction:column; }
+.portal-ring { width:min(48vw,340px); aspect-ratio:1; border:12px solid #b86aff; border-radius:50%; box-shadow:0 0 25px #e6a5ff,0 0 65px #8c2cff,inset 0 0 40px #d987ff; animation:portalPulse .65s ease-in-out infinite alternate,portalSpin 1.2s linear infinite; position:relative; }
+.portal-ring:before,.portal-ring:after {content:"";position:absolute;inset:12%;border:5px dashed #e8c5ff;border-radius:50%;animation:portalSpin 1.6s linear infinite reverse;}
+.portal-ring:after {inset:27%;border:4px solid #fff;filter:blur(2px);}
+.portal-title {font-size:clamp(26px,6vw,48px);font-weight:1000;color:#fff;text-shadow:0 0 20px #d68aff;margin-top:20px;animation:prepPop .5s ease;}
+.portal-particle {position:absolute;width:8px;height:8px;background:#f4d9ff;border-radius:50%;box-shadow:0 0 15px #d28aff;animation:portalFloat 1s ease-out forwards;}
+@keyframes portalPulse {to{transform:scale(1.08);filter:brightness(1.5)}} @keyframes portalSpin{to{rotate:360deg}} @keyframes portalFloat{to{transform:translate(var(--dx),var(--dy)) scale(0);opacity:0}}
+.xp-particle {position:fixed;z-index:90;pointer-events:none;font-weight:1000;color:#a8ff5c;text-shadow:0 0 8px #4cff00;animation:xpRise .85s ease-out forwards;font-size:18px;}
+@keyframes xpRise {to{transform:translate(var(--dx),-85px) scale(.4) rotate(120deg);opacity:0}}
+#celebration {position:fixed;inset:0;z-index:80;pointer-events:none;overflow:hidden;}.confetti {position:absolute;top:-15px;width:9px;height:13px;animation:confettiFall var(--fall) linear forwards;transform:rotate(var(--rot));}
+@keyframes confettiFall {to{transform:translate(var(--x),110vh) rotate(900deg);opacity:.1}}
+.firework {position:absolute;width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 10px currentColor;animation:fireworkBurst .8s ease-out forwards;}
+@keyframes fireworkBurst {to{transform:translate(var(--fx),var(--fy)) scale(0);opacity:0}}
+.pixel-mascot {display:inline-flex;flex-direction:column;align-items:center;margin:8px auto;animation:mascotBob 2s ease-in-out infinite;}
+.creeper-face {width:64px;height:64px;background:#51c94a;border:5px solid #195c21;box-shadow:inset -8px -8px #279333,0 5px #082a17;position:relative;image-rendering:pixelated;}
+.creeper-face:before {content:"";position:absolute;left:10px;top:13px;width:12px;height:12px;background:#102e18;box-shadow:30px 0 #102e18,10px 12px #102e18,20px 12px #102e18,0 24px #102e18,10px 24px #102e18,20px 24px #102e18,30px 24px #102e18;}
+.mascot-speech {max-width:290px;background:#032a48;border:2px solid #9df7ff;border-radius:8px;padding:7px 12px;color:#dfffff;font-size:14px;font-weight:bold;}
+@keyframes mascotBob{50%{transform:translateY(-7px) rotate(2deg)}}
+#victory .panel {position:relative;overflow:hidden;animation:victoryPop .55s cubic-bezier(.2,1.4,.5,1);}
+@keyframes victoryPop{from{transform:scale(.65) rotate(-4deg);opacity:0}to{transform:scale(1);opacity:1}}
+#victory h1 {color:#ffec7a;text-shadow:0 4px #7a4200,0 0 24px #ffe75c;}
+.secret-toast {position:fixed;z-index:110;left:50%;bottom:24px;transform:translateX(-50%);background:#071d39;border:2px solid #68f5ff;color:#fff;padding:12px 18px;border-radius:10px;box-shadow:0 0 20px #42e8f5;animation:prepPop .3s ease;}
+@media(prefers-reduced-motion:reduce){.portal-ring,.pixel-mascot,.confetti,.firework,.xp-particle{animation-duration:.01ms!important;}}
+
 </style>
 </head>
 
@@ -498,6 +526,11 @@ input[type="text"]:focus {
       <div class="logo-title">MINECRAFT</div>
       <div class="logo-subtitle">MEMORY QUEST</div>
       <div class="logo-tag">EDIÇÃO MEMÓRIA</div>
+    </div>
+
+    <div class="pixel-mascot" id="menuMascot">
+      <div class="creeper-face"></div>
+      <div class="mascot-speech" id="mascotSpeech">Psst... encontre os pares!</div>
     </div>
 
     <div class="menu-buttons">
@@ -547,6 +580,13 @@ input[type="text"]:focus {
     </div>
   </div>
 </section>
+
+<div id="portalOverlay">
+  <div class="portal-ring"></div>
+  <div class="portal-title">ENTRANDO NO MUNDO...</div>
+</div>
+
+<div id="celebration"></div>
 
 <!-- RANKING -->
 <div id="rankingOverlay">
@@ -606,6 +646,12 @@ input[type="text"]:focus {
     </div>
 
     <p id="brocheMessage" style="font-weight:bold;color:#8ff7ff;"></p>
+
+    <div class="pixel-mascot">
+      <div class="creeper-face"></div>
+      <div class="mascot-speech" id="victoryMascotSpeech">BOOM! Quer dizer... parabéns!</div>
+    </div>
+
     <p id="finalStats"></p>
     <h2 id="recordMessage"></h2>
 
@@ -649,6 +695,7 @@ let timeLimit = 0;
 let playerName = "";
 
 let prepTimeouts = [];
+let portalTimeout = null;
 
 // =========================
 // NOME DO JOGADOR
@@ -708,7 +755,8 @@ function playSound(type) {
             flip:[440,.07],
             match:[660,.14],
             wrong:[180,.2],
-            win:[880,.28]
+            win:[880,.28],
+            portal:[240,.45]
         };
 
         const [freq,duration] = notes[type] || notes.flip;
@@ -718,6 +766,11 @@ function playSound(type) {
 
         osc.type = type === "wrong" ? "triangle" : "sine";
         osc.frequency.value = freq;
+
+        if (type === "portal") {
+            osc.frequency.setValueAtTime(240,ctx.currentTime);
+            osc.frequency.linearRampToValueAtTime(720,ctx.currentTime+duration);
+        }
 
         if (type === "win") {
             osc.frequency.setValueAtTime(880,ctx.currentTime);
@@ -754,9 +807,7 @@ function formatTime(total) {
 function getRecordKey() {
     return "minecraftMemoryRecord_" +
         document.getElementById("difficulty").value;
-}
-
-function showRecord() {
+}function showRecord() {
     const record = localStorage.getItem(getRecordKey());
 
     document.getElementById("bestRecord").textContent = record
@@ -795,13 +846,11 @@ function saveToRanking(mode,difficulty,entry) {
 
     ranking.push(entry);
 
-    // Menor tempo primeiro, depois menos tentativas
     ranking.sort((a,b) => {
         if (a.time !== b.time) return a.time-b.time;
         return a.attempts-b.attempts;
     });
 
-    // Somente os 4 melhores
     ranking = ranking.slice(0,4);
 
     localStorage.setItem(key,JSON.stringify(ranking));
@@ -889,7 +938,7 @@ function renderRanking() {
     });
 }
 
-// Impedir que nomes sejam interpretados como HTML
+// Proteção para os nomes
 function escapeHTML(text) {
     return String(text)
         .replaceAll("&","&amp;")
@@ -965,7 +1014,6 @@ function prepareRound() {
     document.getElementById("timer").textContent =
         gameMode === "broche" ? "Restante: 02:00" : "Tempo: 00:00";
 
-    // Mostrar todas as cartas
     buildBoard(true);
 
     const overlay = document.getElementById("prepOverlay");
@@ -988,7 +1036,6 @@ function prepareRound() {
         text.textContent = "EMBARALHANDO!";
         hint.textContent = "Preste atenção!";
 
-        // Embaralha rapidamente
         shuffle(cards);
 
         prepTimeouts.push(setTimeout(() => {
@@ -1075,7 +1122,7 @@ function startGame() {
 
     updateInfo();
     createCards();
-    prepareRound();
+    portalTransition(() => prepareRound());
 }
 
 // =========================
@@ -1110,7 +1157,7 @@ function startBrocheMode() {
 
     updateInfo();
     createCards();
-    prepareRound();
+    portalTransition(() => prepareRound());
 }
 
 // =========================
@@ -1123,9 +1170,7 @@ function restartCurrentMode() {
     } else {
         startGame();
     }
-}
-
-// =========================
+}// =========================
 // CRONÔMETRO
 // =========================
 
@@ -1189,6 +1234,12 @@ function timeExpired() {
     document.getElementById("recordMessage").textContent = "";
 
     playSound("wrong");
+
+    setMascotLine("victoryMascotSpeech", [
+        "Quase! Mais uma tentativa!",
+        "O Creeper acredita em você!",
+        "Memorize e tente novamente!"
+    ]);
 }
 
 // =========================
@@ -1225,6 +1276,7 @@ function flipCard(element,index) {
         matched += 2;
 
         playSound("match");
+        spawnXP(element,secondCard.element);
         updateInfo();
 
         if (matched === activePairs*2) {
@@ -1268,14 +1320,19 @@ function victory() {
     gameFinished = true;
     clearInterval(timerInterval);
     playSound("win");
+    celebrate();
+
+    setMascotLine("victoryMascotSpeech", [
+        "GG! Você é mestre da memória!",
+        "XP +999! Isso foi lendário!",
+        "Até o Ender Dragon ficaria confuso!",
+        "Parabéns! Bloco de cérebro desbloqueado!"
+    ]);
 
     document.getElementById("game").style.display = "none";
     document.getElementById("victory").style.display = "flex";
 
-    // =====================
     // MODO BROCHE
-    // =====================
-
     if (gameMode === "broche") {
         document.querySelector("#victory h1").textContent =
             "🏆 BROCHE CONQUISTADO! 🏆";
@@ -1293,7 +1350,6 @@ function victory() {
 
         localStorage.setItem("minecraftMemoryBrocheUnlocked","true");
 
-        // Salvar no Top 4 do Broche
         const ranking = saveToRanking("broche",20,{
             name:playerName,
             time:seconds,
@@ -1316,10 +1372,7 @@ function victory() {
         return;
     }
 
-    // =====================
     // MODO NORMAL
-    // =====================
-
     document.querySelector("#victory h1").textContent =
         "🏆 VITÓRIA! 🏆";
 
@@ -1388,6 +1441,196 @@ function victory() {
     document.getElementById("recordMessage").textContent = message;
 }
 
+
+// =========================
+// EFEITOS E SEGREDOS
+// =========================
+
+function portalTransition(callback) {
+    const overlay = document.getElementById("portalOverlay");
+    overlay.style.display = "flex";
+
+    // Partículas orbitando o portal
+    for (let i=0;i<36;i++) {
+        const particle=document.createElement("i");
+        particle.className="portal-particle";
+        particle.style.left=(Math.random()*100)+"%";
+        particle.style.top=(Math.random()*100)+"%";
+        particle.style.setProperty("--dx",(Math.random()*240-120)+"px");
+        particle.style.setProperty("--dy",(Math.random()*240-120)+"px");
+        overlay.appendChild(particle);
+    }
+
+    playSound("portal");
+    clearTimeout(portalTimeout);
+
+    portalTimeout=setTimeout(()=>{
+        if(gameFinished) return;
+
+        overlay.style.display="none";
+
+        overlay.innerHTML =
+            '<div class="portal-ring"></div><div class="portal-title">ENTRANDO NO MUNDO...</div>';
+
+        callback();
+    },950);
+}
+
+function spawnXP(a,b) {
+    const rectA=a.getBoundingClientRect();
+    const rectB=b.getBoundingClientRect();
+
+    const cx=(rectA.left+rectB.left+rectA.width/2+rectB.width/2)/2;
+    const cy=(rectA.top+rectB.top+rectA.height/2+rectB.height/2)/2;
+
+    for(let i=0;i<10;i++){
+        const p=document.createElement("span");
+        p.className="xp-particle";
+        p.textContent=i%3===0?"✦":"●";
+
+        p.style.left=cx+"px";
+        p.style.top=cy+"px";
+
+        p.style.setProperty("--dx",(Math.random()*130-65)+"px");
+
+        document.body.appendChild(p);
+
+        setTimeout(()=>p.remove(),900);
+    }
+}
+
+function celebrate() {
+    const layer=document.getElementById("celebration");
+    layer.innerHTML="";
+
+    const colors=[
+        "#52ff74",
+        "#ffe45c",
+        "#43e8ff",
+        "#ff6bff",
+        "#ff9948",
+        "#ffffff"
+    ];
+
+    // Confetes
+    for(let i=0;i<100;i++){
+        const c=document.createElement("i");
+        c.className="confetti";
+        c.style.left=Math.random()*100+"%";
+        c.style.background=colors[Math.floor(Math.random()*colors.length)];
+
+        c.style.setProperty("--fall",(2+Math.random()*3)+"s");
+        c.style.setProperty("--x",(Math.random()*260-130)+"px");
+        c.style.setProperty("--rot",Math.random()*360+"deg");
+
+        layer.appendChild(c);
+
+        setTimeout(()=>c.remove(),5200);
+    }
+
+    // Fogos de artifício
+    for(let burst=0;burst<5;burst++) {
+        setTimeout(()=>{
+            const x=15+Math.random()*70;
+            const y=15+Math.random()*45;
+
+            for(let i=0;i<24;i++){
+                const f=document.createElement("i");
+                f.className="firework";
+
+                f.style.left=x+"%";
+                f.style.top=y+"%";
+
+                f.style.color=colors[Math.floor(Math.random()*colors.length)];
+
+                const angle=Math.PI*2*i/24;
+                const dist=45+Math.random()*90;
+
+                f.style.setProperty("--fx",Math.cos(angle)*dist+"px");
+                f.style.setProperty("--fy",Math.sin(angle)*dist+"px");
+
+                layer.appendChild(f);
+                setTimeout(()=>f.remove(),900);
+            }
+        },burst*300);
+    }
+}
+
+// =========================
+// MASCOTE
+// =========================
+
+function setMascotLine(id,lines) {
+    const el=document.getElementById(id);
+
+    if(el) {
+        el.textContent=lines[Math.floor(Math.random()*lines.length)];
+    }
+}
+
+const menuLines=[
+    "Psst... encontre os pares!",
+    "Cuidado: esse jogo vicia!",
+    "Dica: memorize antes do embaralhamento!",
+    "Eu não explodo... hoje.",
+    "Seu cérebro vai ganhar XP!"
+];
+
+setMascotLine("mascotSpeech",menuLines);
+
+document.getElementById("menuMascot")?.addEventListener("click",()=>{
+    setMascotLine("mascotSpeech",menuLines);
+});
+
+// Easter egg: clique 5 vezes no mascote
+let mascotClicks=0;
+let clickReset;
+
+document.getElementById("menuMascot")?.addEventListener("click",()=>{
+    mascotClicks++;
+
+    clearTimeout(clickReset);
+
+    clickReset=setTimeout(()=>mascotClicks=0,1800);
+
+    if(mascotClicks>=5) {
+        mascotClicks=0;
+
+        secretToast("🐸 EASTER EGG! O Creeper virou seu amigo (por enquanto). XP +50!");
+
+        playSound("win");
+    }
+});
+
+// Easter egg: digitar MINECRAFT
+let secretKeys="";
+
+window.addEventListener("keydown",e=>{
+    if(e.key.length===1) {
+        secretKeys=(secretKeys+e.key.toLowerCase()).slice(-9);
+    }
+
+    if(secretKeys.endsWith("minecraft")) {
+        secretToast("⛏ Você encontrou o segredo do bloco! Modo lendário ativado!");
+
+        document.body.classList.add("secret-glow");
+
+        setTimeout(()=>document.body.classList.remove("secret-glow"),2200);
+
+        secretKeys="";
+    }
+});
+
+function secretToast(message) {
+    const t=document.createElement("div");
+    t.className="secret-toast";
+    t.textContent=message;
+
+    document.body.appendChild(t);
+
+    setTimeout(()=>t.remove(),3000);
+}
+
 // =========================
 // MENU
 // =========================
@@ -1396,10 +1639,15 @@ function backMenu() {
     prepTimeouts.forEach(clearTimeout);
     prepTimeouts = [];
 
+    clearTimeout(portalTimeout);
     clearInterval(timerInterval);
+
     gameFinished = true;
 
     document.getElementById("prepOverlay").style.display = "none";
+    document.getElementById("portalOverlay").style.display = "none";
+    document.getElementById("celebration").innerHTML = "";
+
     document.getElementById("game").style.display = "none";
     document.getElementById("victory").style.display = "none";
     document.getElementById("rankingOverlay").style.display = "none";
