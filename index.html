@@ -191,6 +191,23 @@ input[type="checkbox"] { accent-color:var(--cyan);width:18px;height:18px; }
     50% { text-shadow:0 4px #03223d,0 0 28px rgba(66,232,245,.65); }
 }
 
+/* ANIMAÇÃO DE EMBARALHAMENTO */
+.card.shuffling {
+    animation:shuffleCard .22s infinite alternate;
+}
+
+@keyframes shuffleCard {
+    0% {
+        transform:translate(-5px,3px) rotate(-4deg) scale(.92);
+    }
+    50% {
+        transform:translate(5px,-4px) rotate(4deg) scale(1.05);
+    }
+    100% {
+        transform:translate(-2px,-3px) rotate(-3deg) scale(.95);
+    }
+}
+
 #victory { display:none; }
 
 /* MENU */
@@ -334,13 +351,13 @@ input[type="checkbox"] { accent-color:var(--cyan);width:18px;height:18px; }
     margin-top:15px;
 }
 
-/* MEMORIZAÇÃO E CONTAGEM */
+/* PREPARAÇÃO */
 #prepOverlay {
     display:none;
     position:fixed;
     inset:0;
     z-index:20;
-    background:rgba(1,12,28,.72);
+    background:rgba(1,12,28,.78);
     align-items:center;
     justify-content:center;
     flex-direction:column;
@@ -352,7 +369,7 @@ input[type="checkbox"] { accent-color:var(--cyan);width:18px;height:18px; }
     font-weight:1000;
     color:#eaffff;
     text-shadow:0 5px #03416a,0 0 30px #42e8f5;
-    animation:prepPop .7s ease;
+    animation:prepPop .45s ease;
 }
 
 #prepHint {
@@ -471,7 +488,8 @@ input[type="checkbox"] { accent-color:var(--cyan);width:18px;height:18px; }
 </section>
 
 <script>
-// Posições dos pares na imagem sprite
+
+// PARES NA IMAGEM
 const groups = [
   [0,1], [2,3], [4,9],
   [5,6], [7,8], [10,11],
@@ -500,11 +518,11 @@ let timeLimit = 0;
 
 let prepTimeouts = [];
 
-// EMBARALHAR
+// EMBARALHAR ARRAY
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+        [array[i],array[j]] = [array[j],array[i]];
     }
     return array;
 }
@@ -550,7 +568,7 @@ function playSound(type) {
     } catch(e) {}
 }
 
-// FORMATO DO TEMPO
+// TEMPO
 function formatTime(total) {
     const mins = Math.floor(total/60).toString().padStart(2,"0");
     const secs = (total%60).toString().padStart(2,"0");
@@ -589,7 +607,7 @@ function createCards() {
     shuffle(cards);
 }
 
-// CRIAR TABULEIRO
+// CONSTRUIR TABULEIRO
 function buildBoard(showCards=false) {
     const board = document.getElementById("board");
     board.innerHTML = "";
@@ -649,7 +667,7 @@ function startTimer() {
     },1000);
 }
 
-// FASE DE MEMORIZAÇÃO E CONTAGEM
+// PREPARAÇÃO DA PARTIDA
 function prepareRound() {
     prepTimeouts.forEach(clearTimeout);
     prepTimeouts = [];
@@ -661,7 +679,7 @@ function prepareRound() {
     document.getElementById("timer").textContent =
         gameMode === "broche" ? "Restante: 02:00" : "Tempo: 00:00";
 
-    // Mostrar todas as cartas
+    // MOSTRAR CARTAS PARA MEMORIZAR
     buildBoard(true);
 
     const overlay = document.getElementById("prepOverlay");
@@ -670,49 +688,82 @@ function prepareRound() {
 
     overlay.style.display = "flex";
     text.textContent = "MEMORIZE!";
-    hint.textContent = "Observe as cartas!";
+    hint.textContent = "Observe as posições!";
 
-    // 10 segundos para memorizar
+    // APENAS 3 SEGUNDOS DE MEMORIZAÇÃO
     prepTimeouts.push(setTimeout(() => {
         if (gameFinished) return;
 
-        // Esconder as cartas
+        // FECHAR AS CARTAS
         document.querySelectorAll(".card").forEach(card => {
             card.classList.remove("revealed");
         });
 
-        text.textContent = "3";
-        hint.textContent = "Prepare-se!";
+        text.textContent = "EMBARALHANDO!";
+        hint.textContent = "Não perca as posições!";
 
-        prepTimeouts.push(setTimeout(() => {
-            if (!gameFinished) text.textContent = "2";
-        },1000));
+        // EMBARALHAR RAPIDAMENTE
+        document.querySelectorAll(".card").forEach(card => {
+            card.classList.add("shuffling");
+        });
 
-        prepTimeouts.push(setTimeout(() => {
-            if (!gameFinished) text.textContent = "1";
-        },2000));
+        // NOVA ORDEM
+        shuffle(cards);
 
-        // Começar
+        // RECONSTRUIR TABULEIRO COM NOVAS POSIÇÕES
         prepTimeouts.push(setTimeout(() => {
             if (gameFinished) return;
 
-            text.textContent = "VALENDO!";
-            hint.textContent = "Encontre os pares!";
+            buildBoard(false);
 
-            locked = false;
+            document.querySelectorAll(".card").forEach(card => {
+                card.classList.add("shuffling");
+            });
 
-            // Cronômetro começa apenas aqui
-            startTimer();
+        },450));
+
+        // TERMINAR EMBARALHAMENTO
+        prepTimeouts.push(setTimeout(() => {
+            if (gameFinished) return;
+
+            document.querySelectorAll(".card").forEach(card => {
+                card.classList.remove("shuffling");
+            });
+
+            text.textContent = "3";
+            hint.textContent = "Prepare-se!";
+
+            // CONTAGEM REGRESSIVA
+            prepTimeouts.push(setTimeout(() => {
+                if (!gameFinished) text.textContent = "2";
+            },800));
 
             prepTimeouts.push(setTimeout(() => {
-                if (!gameFinished) {
-                    overlay.style.display = "none";
-                }
-            },650));
+                if (!gameFinished) text.textContent = "1";
+            },1600));
 
-        },3000));
+            prepTimeouts.push(setTimeout(() => {
+                if (gameFinished) return;
 
-    },10000));
+                text.textContent = "VALENDO!";
+                hint.textContent = "Encontre os pares!";
+
+                locked = false;
+
+                // INICIAR CRONÔMETRO
+                startTimer();
+
+                prepTimeouts.push(setTimeout(() => {
+                    if (!gameFinished) {
+                        overlay.style.display = "none";
+                    }
+                },650));
+
+            },2400));
+
+        },1350));
+
+    },3000));
 }
 
 // INICIAR MODO NORMAL
@@ -774,7 +825,7 @@ function startBrocheMode() {
     prepareRound();
 }
 
-// REINICIAR MODO ATUAL
+// REINICIAR
 function restartCurrentMode() {
     if (gameMode === "broche") {
         startBrocheMode();
@@ -812,7 +863,7 @@ function timeExpired() {
     playSound("wrong");
 }
 
-// VIRAR CARTA
+// VIRAR CARTAS
 function flipCard(element,index) {
     if (locked || gameFinished ||
         element.classList.contains("revealed") ||
@@ -864,7 +915,7 @@ function flipCard(element,index) {
     }
 }
 
-// ATUALIZAR INFORMAÇÕES
+// ATUALIZAR CONTADORES
 function updateInfo() {
     document.getElementById("attempts").textContent =
         "Tentativas: " + attempts;
@@ -884,7 +935,7 @@ function victory() {
     document.getElementById("game").style.display = "none";
     document.getElementById("victory").style.display = "flex";
 
-    // VITÓRIA MODO BROCHE
+    // VITÓRIA NO MODO BROCHE
     if (gameMode === "broche") {
         document.querySelector("#victory h1").textContent =
             "🏆 BROCHE CONQUISTADO! 🏆";
@@ -955,7 +1006,7 @@ function victory() {
     showRecord();
 }
 
-// VOLTAR AO MENU
+// VOLTAR MENU
 function backMenu() {
     prepTimeouts.forEach(clearTimeout);
     prepTimeouts = [];
@@ -977,7 +1028,7 @@ function backMenu() {
 
     showRecord();
 }
-</script>
 
+</script>
 </body>
 </html>
