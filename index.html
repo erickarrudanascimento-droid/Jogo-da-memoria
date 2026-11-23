@@ -11,7 +11,6 @@
     --navy:#06243f;
     --blue:#0879bd;
     --cyan:#42e8f5;
-    --ice:#eafaff;
 }
 * { box-sizing:border-box; }
 
@@ -83,6 +82,22 @@ select { background:#06385f; }
 label { display:inline-flex;gap:9px;align-items:center;margin:10px;font-size:17px; }
 input[type="checkbox"] { accent-color:var(--cyan);width:18px;height:18px; }
 
+input[type="text"] {
+    width:min(100%,400px);
+    padding:13px;
+    border-radius:10px;
+    border:2px solid #42e8f5;
+    background:#042d4d;
+    color:white;
+    font-size:18px;
+    text-align:center;
+    outline:none;
+}
+
+input[type="text"]:focus {
+    box-shadow:0 0 15px #42e8f5;
+}
+
 #game { display:none;padding:12px 10px 24px; }
 
 .info {
@@ -122,7 +137,6 @@ input[type="checkbox"] { accent-color:var(--cyan);width:18px;height:18px; }
     overflow:hidden;
     box-shadow:0 4px #03375d,0 0 8px rgba(66,232,245,.14);
     transition:transform .18s,box-shadow .18s,border-color .18s;
-    transform-style:preserve-3d;
 }
 
 .card:hover:not(.revealed):not(.matched) {
@@ -143,8 +157,6 @@ input[type="checkbox"] { accent-color:var(--cyan);width:18px;height:18px; }
     background-image:
       repeating-linear-gradient(0deg,transparent 0 12px,rgba(255,255,255,.12) 12px 14px),
       repeating-linear-gradient(90deg,transparent 0 12px,rgba(66,232,245,.17) 12px 14px);
-    opacity:1;
-    transform:scale(1);
 }
 
 .card-front {
@@ -191,30 +203,11 @@ input[type="checkbox"] { accent-color:var(--cyan);width:18px;height:18px; }
     50% { text-shadow:0 4px #03223d,0 0 28px rgba(66,232,245,.65); }
 }
 
-/* ANIMAÇÃO DE EMBARALHAMENTO */
-.card.shuffling {
-    animation:shuffleCard .22s infinite alternate;
-}
-
-@keyframes shuffleCard {
-    0% {
-        transform:translate(-5px,3px) rotate(-4deg) scale(.92);
-    }
-    50% {
-        transform:translate(5px,-4px) rotate(4deg) scale(1.05);
-    }
-    100% {
-        transform:translate(-2px,-3px) rotate(-3deg) scale(.95);
-    }
-}
-
-#victory { display:none; }
-
 /* MENU */
 .menu-scene {
     position:relative;
     width:min(96vw,900px);
-    min-height:min(88vh,720px);
+    min-height:min(88vh,760px);
     display:flex;
     flex-direction:column;
     align-items:center;
@@ -224,10 +217,10 @@ input[type="checkbox"] { accent-color:var(--cyan);width:18px;height:18px; }
     border:4px solid #a6efff;
     border-radius:4px;
     background:
-      linear-gradient(180deg,rgba(3,24,46,.12) 0%,rgba(3,24,46,.22) 34%,rgba(2,19,39,.85) 70%,#03172c 100%),
+      linear-gradient(180deg,rgba(3,24,46,.12),rgba(3,24,46,.22) 34%,rgba(2,19,39,.85) 70%,#03172c),
       repeating-linear-gradient(0deg,transparent 0 42px,rgba(255,255,255,.035) 42px 44px),
       repeating-linear-gradient(90deg,transparent 0 42px,rgba(255,255,255,.035) 42px 44px),
-      linear-gradient(145deg,#30b9e8 0%,#1265a1 35%,#07355c 66%,#061c38 100%);
+      linear-gradient(145deg,#30b9e8,#1265a1 35%,#07355c 66%,#061c38);
     box-shadow:0 0 30px rgba(66,232,245,.3),inset 0 0 35px rgba(0,0,0,.25);
 }
 
@@ -248,7 +241,7 @@ input[type="checkbox"] { accent-color:var(--cyan);width:18px;height:18px; }
     width:100%;
 }
 
-.menu-logo { margin-top:4vh; }
+.menu-logo { margin-top:2vh; }
 
 .logo-pickaxe {
     font-size:clamp(44px,7vw,78px);
@@ -286,7 +279,7 @@ input[type="checkbox"] { accent-color:var(--cyan);width:18px;height:18px; }
     font-size:13px;
 }
 
-.menu-buttons { max-width:520px;margin-top:24px; }
+.menu-buttons { max-width:520px;margin-top:18px; }
 
 .menu-scene button {
     border-radius:2px;
@@ -305,9 +298,9 @@ input[type="checkbox"] { accent-color:var(--cyan);width:18px;height:18px; }
 .main-menu-button {
     display:block;
     width:min(100%,420px);
-    margin:0 auto 18px !important;
-    padding:18px 25px !important;
-    font-size:clamp(22px,3vw,30px) !important;
+    margin:0 auto 12px !important;
+    padding:15px 25px !important;
+    font-size:clamp(20px,3vw,28px) !important;
 }
 
 .menu-settings {
@@ -337,7 +330,7 @@ input[type="checkbox"] { accent-color:var(--cyan);width:18px;height:18px; }
 .sound-row label { margin:5px; }
 
 #bestRecord {
-    margin:15px 0 5px;
+    margin:12px 0 5px;
     font-weight:bold;
     color:#dffcff;
     text-shadow:0 2px #03223d;
@@ -348,7 +341,18 @@ input[type="checkbox"] { accent-color:var(--cyan);width:18px;height:18px; }
     font-weight:bold;
     letter-spacing:2px;
     color:#9cefff;
-    margin-top:15px;
+    margin-top:12px;
+}
+
+/* EMBARALHAMENTO */
+.card.shuffling {
+    animation:shuffleCard .22s infinite alternate;
+}
+
+@keyframes shuffleCard {
+    0% { transform:translate(-5px,3px) rotate(-4deg) scale(.92); }
+    50% { transform:translate(5px,-4px) rotate(4deg) scale(1.05); }
+    100% { transform:translate(-2px,-3px) rotate(-3deg) scale(.95); }
 }
 
 /* PREPARAÇÃO */
@@ -384,8 +388,93 @@ input[type="checkbox"] { accent-color:var(--cyan);width:18px;height:18px; }
     to { transform:scale(1);opacity:1; }
 }
 
+/* RANKING */
+#rankingOverlay {
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:50;
+    background:rgba(0,8,20,.86);
+    align-items:center;
+    justify-content:center;
+    padding:15px;
+    backdrop-filter:blur(5px);
+}
+
+.ranking-panel {
+    width:min(95vw,600px);
+    max-height:90vh;
+    overflow:auto;
+    background:linear-gradient(145deg,#073c65,#041c38);
+    border:3px solid #42e8f5;
+    border-radius:15px;
+    padding:20px;
+    box-shadow:0 0 30px rgba(66,232,245,.25);
+}
+
+.ranking-panel h1 {
+    font-size:clamp(28px,6vw,42px);
+}
+
+.ranking-controls {
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items:center;
+    gap:5px;
+}
+
+.ranking-controls select {
+    margin:5px;
+    font-size:14px;
+}
+
+.ranking-row {
+    display:grid;
+    grid-template-columns:45px 1fr auto;
+    gap:8px;
+    align-items:center;
+    text-align:left;
+    padding:12px 8px;
+    margin:7px 0;
+    background:rgba(0,15,35,.6);
+    border:1px solid rgba(66,232,245,.3);
+    border-radius:8px;
+}
+
+.rank-number {
+    font-size:24px;
+    font-weight:bold;
+    text-align:center;
+}
+
+.rank-name {
+    font-weight:bold;
+    overflow-wrap:anywhere;
+}
+
+.rank-details {
+    font-size:12px;
+    color:#a9f5ff;
+    margin-top:4px;
+}
+
+.rank-time {
+    font-weight:bold;
+    text-align:right;
+    white-space:nowrap;
+}
+
+.no-ranking {
+    padding:30px 10px;
+    color:#bcefff;
+    font-size:17px;
+}
+
+#victory { display:none; }
+
 @media(max-width:600px) {
-    .menu-scene { min-height:86vh;padding:28px 12px 18px; }
+    .menu-scene { min-height:86vh;padding:22px 12px 18px; }
     .logo-title { letter-spacing:1px; }
     .logo-subtitle { letter-spacing:3px; }
     .setting-row select { width:100%; }
@@ -403,6 +492,7 @@ input[type="checkbox"] { accent-color:var(--cyan);width:18px;height:18px; }
 <!-- MENU -->
 <section id="menu" class="screen">
   <div class="menu-scene">
+
     <div class="menu-logo">
       <div class="logo-pickaxe">⛏</div>
       <div class="logo-title">MINECRAFT</div>
@@ -411,15 +501,28 @@ input[type="checkbox"] { accent-color:var(--cyan);width:18px;height:18px; }
     </div>
 
     <div class="menu-buttons">
-      <button class="main-menu-button" onclick="startGame()">▶ JOGAR</button>
+
+      <div style="margin-bottom:14px;">
+        <p style="font-weight:bold;margin-bottom:8px;">👤 NOME DO JOGADOR</p>
+        <input id="playerName" type="text" maxlength="16"
+          placeholder="Digite seu nome..." autocomplete="off">
+      </div>
+
+      <button class="main-menu-button" onclick="startGame()">
+        ▶ JOGAR
+      </button>
 
       <button class="main-menu-button" onclick="startBrocheMode()">
         🏅 MODO BROCHE
       </button>
 
-      <p style="font-size:14px;color:#d8fbff;margin:-8px 0 16px;">
-        Encontre os 20 pares em até 2 minutos e conquiste seu broche!
+      <p style="font-size:14px;color:#d8fbff;margin:-5px 0 12px;">
+        Encontre os 20 pares em até 2 minutos e conquiste um broche!
       </p>
+
+      <button class="main-menu-button" onclick="openRanking()">
+        🏆 RANKING TOP 4
+      </button>
 
       <div class="menu-settings">
         <div class="setting-row">
@@ -445,6 +548,30 @@ input[type="checkbox"] { accent-color:var(--cyan);width:18px;height:18px; }
   </div>
 </section>
 
+<!-- RANKING -->
+<div id="rankingOverlay">
+  <div class="ranking-panel">
+    <h1>🏆 TOP 4 🏆</h1>
+
+    <div class="ranking-controls">
+      <select id="rankingMode" onchange="renderRanking()">
+        <option value="normal">MODO NORMAL</option>
+        <option value="broche">MODO BROCHE</option>
+      </select>
+
+      <select id="rankingDifficulty" onchange="renderRanking()">
+        <option value="10">FÁCIL — 10 PARES</option>
+        <option value="15">MÉDIO — 15 PARES</option>
+        <option value="20">DIFÍCIL — 20 PARES</option>
+      </select>
+    </div>
+
+    <div id="rankingList"></div>
+
+    <button onclick="closeRanking()">VOLTAR</button>
+  </div>
+</div>
+
 <!-- JOGO -->
 <section id="game">
   <h1>⛏ ENCONTRE OS PARES! ⛏</h1>
@@ -459,7 +586,7 @@ input[type="checkbox"] { accent-color:var(--cyan);width:18px;height:18px; }
 
   <div id="prepOverlay">
     <div id="prepText">MEMORIZE!</div>
-    <div id="prepHint">Observe as cartas!</div>
+    <div id="prepHint">Observe as posições!</div>
   </div>
 
   <button onclick="restartCurrentMode()">↻ REINICIAR</button>
@@ -483,13 +610,17 @@ input[type="checkbox"] { accent-color:var(--cyan);width:18px;height:18px; }
     <h2 id="recordMessage"></h2>
 
     <button onclick="restartCurrentMode()">JOGAR NOVAMENTE</button>
+    <button onclick="openRankingFromVictory()">🏆 VER RANKING</button>
     <button onclick="backMenu()">MENU INICIAL</button>
   </div>
 </section>
 
 <script>
 
-// PARES NA IMAGEM
+// =========================
+// CONFIGURAÇÕES
+// =========================
+
 const groups = [
   [0,1], [2,3], [4,9],
   [5,6], [7,8], [10,11],
@@ -515,19 +646,57 @@ let gameFinished = false;
 let activePairs = 20;
 let gameMode = "normal";
 let timeLimit = 0;
+let playerName = "";
 
 let prepTimeouts = [];
 
-// EMBARALHAR ARRAY
+// =========================
+// NOME DO JOGADOR
+// =========================
+
+const nameInput = document.getElementById("playerName");
+
+nameInput.value = localStorage.getItem("minecraftMemoryPlayerName") || "";
+
+nameInput.addEventListener("change",() => {
+    localStorage.setItem(
+        "minecraftMemoryPlayerName",
+        nameInput.value.trim()
+    );
+});
+
+function getPlayerName() {
+    const name = nameInput.value.trim();
+
+    if (!name) {
+        alert("Digite seu nome antes de jogar!");
+        nameInput.focus();
+        return false;
+    }
+
+    playerName = name.substring(0,16);
+
+    localStorage.setItem("minecraftMemoryPlayerName",playerName);
+    nameInput.value = playerName;
+
+    return true;
+}
+
+// =========================
+// EMBARALHAR
+// =========================
+
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i],array[j]] = [array[j],array[i]];
     }
-    return array;
 }
 
+// =========================
 // SONS
+// =========================
+
 function playSound(type) {
     if (!document.getElementById("soundToggle").checked) return;
 
@@ -568,14 +737,20 @@ function playSound(type) {
     } catch(e) {}
 }
 
+// =========================
 // TEMPO
+// =========================
+
 function formatTime(total) {
     const mins = Math.floor(total/60).toString().padStart(2,"0");
     const secs = (total%60).toString().padStart(2,"0");
     return `${mins}:${secs}`;
 }
 
+// =========================
 // RECORDES
+// =========================
+
 function getRecordKey() {
     return "minecraftMemoryRecord_" +
         document.getElementById("difficulty").value;
@@ -585,14 +760,149 @@ function showRecord() {
     const record = localStorage.getItem(getRecordKey());
 
     document.getElementById("bestRecord").textContent = record
-        ? `Recorde (${document.getElementById("difficulty").selectedOptions[0].text}): ${record}`
+        ? `Recorde: ${record}`
         : "Recorde: ainda não definido";
 }
 
 document.getElementById("difficulty").addEventListener("change",showRecord);
 showRecord();
 
+// =========================
+// RANKING TOP 4
+// =========================
+
+function getRankingKey(mode,difficulty) {
+    if (mode === "broche") {
+        return "minecraftMemoryRanking_broche";
+    }
+
+    return "minecraftMemoryRanking_normal_" + difficulty;
+}
+
+function getRanking(mode,difficulty) {
+    const key = getRankingKey(mode,difficulty);
+
+    try {
+        return JSON.parse(localStorage.getItem(key)) || [];
+    } catch(e) {
+        return [];
+    }
+}
+
+function saveToRanking(mode,difficulty,entry) {
+    const key = getRankingKey(mode,difficulty);
+    let ranking = getRanking(mode,difficulty);
+
+    ranking.push(entry);
+
+    // Menor tempo primeiro, depois menos tentativas
+    ranking.sort((a,b) => {
+        if (a.time !== b.time) return a.time-b.time;
+        return a.attempts-b.attempts;
+    });
+
+    // Somente os 4 melhores
+    ranking = ranking.slice(0,4);
+
+    localStorage.setItem(key,JSON.stringify(ranking));
+
+    return ranking;
+}
+
+function openRanking() {
+    document.getElementById("rankingOverlay").style.display = "flex";
+    renderRanking();
+}
+
+function closeRanking() {
+    document.getElementById("rankingOverlay").style.display = "none";
+}
+
+function openRankingFromVictory() {
+    const mode = gameMode;
+    const difficulty = activePairs;
+
+    document.getElementById("victory").style.display = "none";
+    document.getElementById("menu").style.display = "flex";
+
+    document.getElementById("rankingMode").value = mode;
+    document.getElementById("rankingDifficulty").value = difficulty;
+
+    openRanking();
+}
+
+function renderRanking() {
+    const mode = document.getElementById("rankingMode").value;
+    const difficulty = document.getElementById("rankingDifficulty").value;
+
+    const difficultySelect = document.getElementById("rankingDifficulty");
+
+    difficultySelect.style.display =
+        mode === "normal" ? "inline-block" : "none";
+
+    const ranking = getRanking(mode,difficulty);
+    const list = document.getElementById("rankingList");
+
+    list.innerHTML = "";
+
+    if (ranking.length === 0) {
+        list.innerHTML = `
+          <div class="no-ranking">
+            <h2>📜 Ainda não há jogadores!</h2>
+            <p>Seja o primeiro a entrar no Top 4!</p>
+          </div>
+        `;
+        return;
+    }
+
+    ranking.forEach((entry,index) => {
+        const row = document.createElement("div");
+        row.className = "ranking-row";
+
+        let medal = "";
+
+        if (index === 0) medal = "🥇";
+        else if (index === 1) medal = "🥈";
+        else if (index === 2) medal = "🥉";
+        else medal = "4️⃣";
+
+        const difficultyText = mode === "normal"
+            ? `${entry.difficulty} pares`
+            : "Desafio 20 pares";
+
+        row.innerHTML = `
+          <div class="rank-number">${medal}</div>
+
+          <div>
+            <div class="rank-name">${escapeHTML(entry.name)}</div>
+            <div class="rank-details">
+              ${difficultyText} • ${entry.attempts} tentativas
+            </div>
+          </div>
+
+          <div class="rank-time">
+            ${formatTime(entry.time)}
+          </div>
+        `;
+
+        list.appendChild(row);
+    });
+}
+
+// Impedir que nomes sejam interpretados como HTML
+function escapeHTML(text) {
+    return String(text)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
+
+// =========================
 // CRIAR CARTAS
+// =========================
+
 function createCards() {
     cards = [];
 
@@ -607,13 +917,17 @@ function createCards() {
     shuffle(cards);
 }
 
+// =========================
 // CONSTRUIR TABULEIRO
+// =========================
+
 function buildBoard(showCards=false) {
     const board = document.getElementById("board");
     board.innerHTML = "";
 
     cards.forEach((card,index) => {
         const element = document.createElement("div");
+
         element.className = "card" + (showCards ? " revealed" : "");
 
         const back = document.createElement("div");
@@ -636,7 +950,185 @@ function buildBoard(showCards=false) {
     });
 }
 
+// =========================
+// PREPARAÇÃO
+// =========================
+
+function prepareRound() {
+    prepTimeouts.forEach(clearTimeout);
+    prepTimeouts = [];
+
+    locked = true;
+    gameFinished = false;
+    seconds = 0;
+
+    document.getElementById("timer").textContent =
+        gameMode === "broche" ? "Restante: 02:00" : "Tempo: 00:00";
+
+    // Mostrar todas as cartas
+    buildBoard(true);
+
+    const overlay = document.getElementById("prepOverlay");
+    const text = document.getElementById("prepText");
+    const hint = document.getElementById("prepHint");
+
+    overlay.style.display = "flex";
+    text.textContent = "MEMORIZE!";
+    hint.textContent = "Observe as posições!";
+
+    // 3 segundos para memorizar
+    prepTimeouts.push(setTimeout(() => {
+        if (gameFinished) return;
+
+        document.querySelectorAll(".card").forEach(card => {
+            card.classList.remove("revealed");
+            card.classList.add("shuffling");
+        });
+
+        text.textContent = "EMBARALHANDO!";
+        hint.textContent = "Preste atenção!";
+
+        // Embaralha rapidamente
+        shuffle(cards);
+
+        prepTimeouts.push(setTimeout(() => {
+            if (gameFinished) return;
+
+            buildBoard(false);
+
+            document.querySelectorAll(".card").forEach(card => {
+                card.classList.add("shuffling");
+            });
+
+        },400));
+
+        prepTimeouts.push(setTimeout(() => {
+            if (gameFinished) return;
+
+            document.querySelectorAll(".card").forEach(card => {
+                card.classList.remove("shuffling");
+            });
+
+            text.textContent = "3";
+            hint.textContent = "Prepare-se!";
+
+            prepTimeouts.push(setTimeout(() => {
+                if (!gameFinished) text.textContent = "2";
+            },800));
+
+            prepTimeouts.push(setTimeout(() => {
+                if (!gameFinished) text.textContent = "1";
+            },1600));
+
+            prepTimeouts.push(setTimeout(() => {
+                if (gameFinished) return;
+
+                text.textContent = "VALENDO!";
+                hint.textContent = "Encontre os pares!";
+
+                locked = false;
+                startTimer();
+
+                prepTimeouts.push(setTimeout(() => {
+                    if (!gameFinished) {
+                        overlay.style.display = "none";
+                    }
+                },650));
+
+            },2400));
+
+        },1300));
+
+    },3000));
+}
+
+// =========================
+// INICIAR MODO NORMAL
+// =========================
+
+function startGame() {
+    if (!getPlayerName()) return;
+
+    gameMode = "normal";
+    timeLimit = 0;
+
+    document.getElementById("game").querySelector("h1").textContent =
+        "⛏ ENCONTRE OS PARES! ⛏";
+
+    document.getElementById("victorySubtitle").textContent =
+        "Você encontrou todos os pares!";
+
+    document.getElementById("brocheAward").style.display = "none";
+    document.getElementById("brocheMessage").textContent = "";
+
+    activePairs = Number(document.getElementById("difficulty").value);
+
+    document.getElementById("menu").style.display = "none";
+    document.getElementById("victory").style.display = "none";
+    document.getElementById("rankingOverlay").style.display = "none";
+    document.getElementById("game").style.display = "block";
+
+    attempts = pairs = matched = 0;
+    firstCard = null;
+    locked = true;
+    gameFinished = false;
+
+    updateInfo();
+    createCards();
+    prepareRound();
+}
+
+// =========================
+// MODO BROCHE
+// =========================
+
+function startBrocheMode() {
+    if (!getPlayerName()) return;
+
+    gameMode = "broche";
+    timeLimit = 120;
+    activePairs = 20;
+
+    document.getElementById("game").querySelector("h1").textContent =
+        "🏅 DESAFIO DO BROCHE 🏅";
+
+    document.getElementById("victorySubtitle").textContent =
+        "DESAFIO CONCLUÍDO!";
+
+    document.getElementById("brocheAward").style.display = "none";
+    document.getElementById("brocheMessage").textContent = "";
+
+    document.getElementById("menu").style.display = "none";
+    document.getElementById("victory").style.display = "none";
+    document.getElementById("rankingOverlay").style.display = "none";
+    document.getElementById("game").style.display = "block";
+
+    attempts = pairs = matched = 0;
+    firstCard = null;
+    locked = true;
+    gameFinished = false;
+
+    updateInfo();
+    createCards();
+    prepareRound();
+}
+
+// =========================
+// REINICIAR
+// =========================
+
+function restartCurrentMode() {
+    if (gameMode === "broche") {
+        startBrocheMode();
+    } else {
+        startGame();
+    }
+}
+
+// =========================
 // CRONÔMETRO
+// =========================
+
 function startTimer() {
     clearInterval(timerInterval);
     seconds = 0;
@@ -667,174 +1159,10 @@ function startTimer() {
     },1000);
 }
 
-// PREPARAÇÃO DA PARTIDA
-function prepareRound() {
-    prepTimeouts.forEach(clearTimeout);
-    prepTimeouts = [];
-
-    locked = true;
-    gameFinished = false;
-    seconds = 0;
-
-    document.getElementById("timer").textContent =
-        gameMode === "broche" ? "Restante: 02:00" : "Tempo: 00:00";
-
-    // MOSTRAR CARTAS PARA MEMORIZAR
-    buildBoard(true);
-
-    const overlay = document.getElementById("prepOverlay");
-    const text = document.getElementById("prepText");
-    const hint = document.getElementById("prepHint");
-
-    overlay.style.display = "flex";
-    text.textContent = "MEMORIZE!";
-    hint.textContent = "Observe as posições!";
-
-    // APENAS 3 SEGUNDOS DE MEMORIZAÇÃO
-    prepTimeouts.push(setTimeout(() => {
-        if (gameFinished) return;
-
-        // FECHAR AS CARTAS
-        document.querySelectorAll(".card").forEach(card => {
-            card.classList.remove("revealed");
-        });
-
-        text.textContent = "EMBARALHANDO!";
-        hint.textContent = "Não perca as posições!";
-
-        // EMBARALHAR RAPIDAMENTE
-        document.querySelectorAll(".card").forEach(card => {
-            card.classList.add("shuffling");
-        });
-
-        // NOVA ORDEM
-        shuffle(cards);
-
-        // RECONSTRUIR TABULEIRO COM NOVAS POSIÇÕES
-        prepTimeouts.push(setTimeout(() => {
-            if (gameFinished) return;
-
-            buildBoard(false);
-
-            document.querySelectorAll(".card").forEach(card => {
-                card.classList.add("shuffling");
-            });
-
-        },450));
-
-        // TERMINAR EMBARALHAMENTO
-        prepTimeouts.push(setTimeout(() => {
-            if (gameFinished) return;
-
-            document.querySelectorAll(".card").forEach(card => {
-                card.classList.remove("shuffling");
-            });
-
-            text.textContent = "3";
-            hint.textContent = "Prepare-se!";
-
-            // CONTAGEM REGRESSIVA
-            prepTimeouts.push(setTimeout(() => {
-                if (!gameFinished) text.textContent = "2";
-            },800));
-
-            prepTimeouts.push(setTimeout(() => {
-                if (!gameFinished) text.textContent = "1";
-            },1600));
-
-            prepTimeouts.push(setTimeout(() => {
-                if (gameFinished) return;
-
-                text.textContent = "VALENDO!";
-                hint.textContent = "Encontre os pares!";
-
-                locked = false;
-
-                // INICIAR CRONÔMETRO
-                startTimer();
-
-                prepTimeouts.push(setTimeout(() => {
-                    if (!gameFinished) {
-                        overlay.style.display = "none";
-                    }
-                },650));
-
-            },2400));
-
-        },1350));
-
-    },3000));
-}
-
-// INICIAR MODO NORMAL
-function startGame() {
-    gameMode = "normal";
-    timeLimit = 0;
-
-    document.getElementById("game").querySelector("h1").textContent =
-        "⛏ ENCONTRE OS PARES! ⛏";
-
-    document.getElementById("victorySubtitle").textContent =
-        "Você encontrou todos os pares!";
-
-    document.getElementById("brocheAward").style.display = "none";
-    document.getElementById("brocheMessage").textContent = "";
-
-    activePairs = Number(document.getElementById("difficulty").value);
-
-    document.getElementById("menu").style.display = "none";
-    document.getElementById("victory").style.display = "none";
-    document.getElementById("game").style.display = "block";
-
-    attempts = pairs = matched = 0;
-    firstCard = null;
-    locked = true;
-    gameFinished = false;
-
-    updateInfo();
-    createCards();
-    prepareRound();
-}
-
-// MODO BROCHE
-function startBrocheMode() {
-    gameMode = "broche";
-    timeLimit = 120;
-    activePairs = 20;
-
-    document.getElementById("game").querySelector("h1").textContent =
-        "🏅 DESAFIO DO BROCHE 🏅";
-
-    document.getElementById("victorySubtitle").textContent =
-        "DESAFIO CONCLUÍDO!";
-
-    document.getElementById("brocheAward").style.display = "none";
-    document.getElementById("brocheMessage").textContent = "";
-
-    document.getElementById("menu").style.display = "none";
-    document.getElementById("victory").style.display = "none";
-    document.getElementById("game").style.display = "block";
-
-    attempts = pairs = matched = 0;
-    firstCard = null;
-    locked = true;
-    gameFinished = false;
-
-    updateInfo();
-    createCards();
-    prepareRound();
-}
-
-// REINICIAR
-function restartCurrentMode() {
-    if (gameMode === "broche") {
-        startBrocheMode();
-    } else {
-        startGame();
-    }
-}
-
+// =========================
 // TEMPO ESGOTADO
+// =========================
+
 function timeExpired() {
     if (gameFinished) return;
 
@@ -856,14 +1184,17 @@ function timeExpired() {
         "Você precisa encontrar os 20 pares em 2 minutos.";
 
     document.getElementById("finalStats").textContent =
-        `Você encontrou ${pairs} de 20 pares.`;
+        `${playerName}, você encontrou ${pairs} de 20 pares.`;
 
     document.getElementById("recordMessage").textContent = "";
 
     playSound("wrong");
 }
 
+// =========================
 // VIRAR CARTAS
+// =========================
+
 function flipCard(element,index) {
     if (locked || gameFinished ||
         element.classList.contains("revealed") ||
@@ -915,7 +1246,10 @@ function flipCard(element,index) {
     }
 }
 
+// =========================
 // ATUALIZAR CONTADORES
+// =========================
+
 function updateInfo() {
     document.getElementById("attempts").textContent =
         "Tentativas: " + attempts;
@@ -924,7 +1258,10 @@ function updateInfo() {
         `Pares: ${pairs}/${activePairs}`;
 }
 
+// =========================
 // VITÓRIA
+// =========================
+
 function victory() {
     if (gameFinished) return;
 
@@ -935,13 +1272,16 @@ function victory() {
     document.getElementById("game").style.display = "none";
     document.getElementById("victory").style.display = "flex";
 
-    // VITÓRIA NO MODO BROCHE
+    // =====================
+    // MODO BROCHE
+    // =====================
+
     if (gameMode === "broche") {
         document.querySelector("#victory h1").textContent =
             "🏆 BROCHE CONQUISTADO! 🏆";
 
         document.getElementById("victorySubtitle").textContent =
-            "Você é rápido demais! Desafio completo!";
+            `${playerName}, você conseguiu!`;
 
         document.getElementById("brocheAward").style.display = "block";
 
@@ -949,28 +1289,50 @@ function victory() {
             "🏅 BROCHE DA MEMÓRIA DESBLOQUEADO!";
 
         document.getElementById("finalStats").textContent =
-            `20 pares encontrados em ${formatTime(seconds)} e ${attempts} tentativas!`;
+            `20 pares em ${formatTime(seconds)} e ${attempts} tentativas!`;
 
         localStorage.setItem("minecraftMemoryBrocheUnlocked","true");
 
+        // Salvar no Top 4 do Broche
+        const ranking = saveToRanking("broche",20,{
+            name:playerName,
+            time:seconds,
+            attempts:attempts,
+            difficulty:20,
+            date:Date.now()
+        });
+
+        const position = ranking.findIndex(entry =>
+            entry.name === playerName &&
+            entry.time === seconds &&
+            entry.attempts === attempts
+        );
+
         document.getElementById("recordMessage").textContent =
-            "Seu broche foi salvo neste navegador!";
+            position !== -1
+            ? `🏆 Você ficou em ${position+1}º lugar no Top 4!`
+            : "Você completou o desafio!";
 
         return;
     }
 
-    // VITÓRIA NORMAL
-    document.querySelector("#victory h1").textContent = "🏆 VITÓRIA! 🏆";
+    // =====================
+    // MODO NORMAL
+    // =====================
+
+    document.querySelector("#victory h1").textContent =
+        "🏆 VITÓRIA! 🏆";
 
     document.getElementById("victorySubtitle").textContent =
-        "Você encontrou todos os pares!";
+        `${playerName}, você encontrou todos os pares!`;
 
     document.getElementById("brocheAward").style.display = "none";
     document.getElementById("brocheMessage").textContent = "";
 
     document.getElementById("finalStats").textContent =
-        `Você venceu em ${attempts} tentativas e ${formatTime(seconds)}!`;
+        `Vitória em ${attempts} tentativas e ${formatTime(seconds)}!`;
 
+    // RECORDES
     const key = getRecordKey();
     const previous = localStorage.getItem(key);
 
@@ -998,15 +1360,38 @@ function victory() {
         localStorage.setItem(key,currentRecord);
     }
 
-    document.getElementById("recordMessage").textContent =
-        newRecord
-        ? "✨ NOVO RECORDE! ✨"
-        : `Recorde: ${localStorage.getItem(key)}`;
-
     showRecord();
+
+    // SALVAR NO TOP 4 DA DIFICULDADE
+    const ranking = saveToRanking("normal",activePairs,{
+        name:playerName,
+        time:seconds,
+        attempts:attempts,
+        difficulty:activePairs,
+        date:Date.now()
+    });
+
+    const position = ranking.findIndex(entry =>
+        entry.name === playerName &&
+        entry.time === seconds &&
+        entry.attempts === attempts
+    );
+
+    let message = newRecord ? "✨ NOVO RECORDE! " : "";
+
+    if (position !== -1) {
+        message += `🏆 Você ficou em ${position+1}º lugar no Top 4!`;
+    } else {
+        message += "Você terminou, mas não entrou no Top 4.";
+    }
+
+    document.getElementById("recordMessage").textContent = message;
 }
 
-// VOLTAR MENU
+// =========================
+// MENU
+// =========================
+
 function backMenu() {
     prepTimeouts.forEach(clearTimeout);
     prepTimeouts = [];
@@ -1017,6 +1402,7 @@ function backMenu() {
     document.getElementById("prepOverlay").style.display = "none";
     document.getElementById("game").style.display = "none";
     document.getElementById("victory").style.display = "none";
+    document.getElementById("rankingOverlay").style.display = "none";
 
     document.querySelector("#victory h1").textContent =
         "🏆 VITÓRIA! 🏆";
