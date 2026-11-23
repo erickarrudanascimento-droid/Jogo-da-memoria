@@ -318,8 +318,9 @@ function startGame() {
         const column = card.image % 5;
 const row = Math.floor(card.image / 5);
 
-const x = (column / 4) * 100;
-const y = (row / 7) * 100;
+const x = column * 100;
+const y = row * 100;
+        
 front.style.backgroundPosition = `${x}% ${y}%`;
 
         element.appendChild(back);
