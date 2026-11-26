@@ -686,42 +686,52 @@ body { height:100dvh; }
 }
 
 
-/* XP estilo Minecraft */
+/* Barra de XP inspirada no HUD clássico do Minecraft */
 #game .xp-stat {
     display:flex;
     align-items:center;
-    gap:7px;
-    min-width:clamp(130px,20vw,210px);
-    padding:5px 9px;
-    background:#292929;
-    border:2px solid #111;
-    box-shadow:inset 0 0 0 1px #777, 0 2px 0 #050505;
-}
-.xp-label,.xp-value {
-    color:#f4f4f4;
-    font-family:monospace;
-    font-weight:900;
-    text-shadow:1px 1px #111;
-    white-space:nowrap;
+    justify-content:center;
+    min-width:clamp(125px,19vw,205px);
+    padding:5px 8px;
+    background:transparent;
+    border:0;
+    box-shadow:none;
 }
 .xp-track {
     position:relative;
-    flex:1;
-    height:13px;
-    min-width:45px;
+    width:100%;
+    height:15px;
     overflow:hidden;
-    background:#171717;
-    border:2px solid #090909;
-    box-shadow:inset 0 1px 2px #000;
+    background:#343434;
+    border:2px solid #171717;
+    border-radius:1px;
+    box-shadow:
+      inset 0 0 0 1px #777,
+      inset 0 2px 2px rgba(0,0,0,.75),
+      0 1px 0 rgba(255,255,255,.2);
+    image-rendering:pixelated;
 }
 .xp-fill {
     width:0%;
     height:100%;
-    background:linear-gradient(180deg,#a5ff55 0%,#75d92b 45%,#39a516 100%);
-    box-shadow:inset 0 1px rgba(255,255,255,.45), 0 0 7px #70ed28;
-    transition:width .45s steps(12,end);
+    background:
+      repeating-linear-gradient(90deg,rgba(0,0,0,.10) 0 2px,transparent 2px 7px),
+      linear-gradient(180deg,#a5ff55 0%,#80e331 35%,#55c51d 70%,#3b9915 100%);
+    box-shadow:inset 0 1px rgba(255,255,255,.55), inset 0 -2px rgba(0,70,0,.25);
+    transition:width .4s steps(16,end);
 }
-.xp-value { font-size:11px; }
+.xp-value {
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font:900 10px/1 monospace;
+    letter-spacing:.3px;
+    text-shadow:1px 1px 0 #111,-1px -1px 0 #111,1px -1px 0 #111,-1px 1px 0 #111;
+    pointer-events:none;
+}
 
 /* Cartas com aparência de blocos Minecraft */
 #game .card {
@@ -772,14 +782,31 @@ body { height:100dvh; }
 }
 @media(max-width:600px) {
     #game .xp-stat { min-width:112px; gap:4px; padding:4px 5px; }
-    .xp-track { height:10px; }
+    .xp-track { height:13px; }
     .xp-value { font-size:9px; }
 }
+
+
+/* Orbes de XP voando até a barra */
+.xp-orb{position:fixed;z-index:120;width:10px;height:10px;pointer-events:none;color:#b7ff54;font-size:17px;line-height:10px;text-shadow:0 0 7px #7dff19;animation:orbFly .72s cubic-bezier(.18,.72,.28,1) forwards}
+@keyframes orbFly{0%{transform:translate(0,0) scale(1.2);opacity:1}70%{opacity:1}100%{transform:translate(var(--tx),var(--ty)) scale(.25);opacity:0}}
+#game .xp-track.level-pulse{animation:xpPulse .5s steps(2,end)}
+@keyframes xpPulse{50%{filter:brightness(1.8);box-shadow:0 0 15px #9dff39}}
+.game-toast{position:fixed;z-index:150;top:18px;left:50%;transform:translate(-50%,-130px);opacity:0;min-width:230px;padding:10px 18px;background:linear-gradient(180deg,#383838,#171717);border:3px solid #d6b36b;box-shadow:0 4px 0 #090909,0 0 18px #8cff42;color:#fff;font: bold 15px monospace;text-shadow:2px 2px #222;transition:transform .35s steps(5,end),opacity .25s}
+.game-toast.show{transform:translate(-50%,0);opacity:1}
+.game-toast small{display:block;color:#a5ff55;font-size:11px;margin-top:4px}
+.level-flash{position:fixed;z-index:145;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:0;background:radial-gradient(circle,rgba(135,255,45,.25),transparent 58%);transition:opacity .2s}
+.level-flash.show{opacity:1;animation:levelFlash .8s ease-out forwards}
+.level-flash strong{font:1000 clamp(34px,8vw,76px) monospace;color:#baff55;text-shadow:4px 4px #245b12,0 0 24px #a4ff43;transform:scale(.5);animation:levelText .8s cubic-bezier(.2,1.5,.5,1) forwards}
+@keyframes levelFlash{0%{opacity:0}20%{opacity:1}100%{opacity:0}}
+@keyframes levelText{0%{transform:scale(.5) rotate(-5deg)}35%{transform:scale(1.12) rotate(2deg)}100%{transform:scale(1) rotate(0)}}
 
 </style>
 </head>
 
 <body>
+<div id="gameToast" class="game-toast" aria-live="polite"></div>
+<div id="levelFlash" class="level-flash"><strong>LEVEL UP!</strong></div>
 
 <!-- MENU -->
 <section id="menu" class="screen">
@@ -882,9 +909,10 @@ body { height:100dvh; }
   <div class="info">
     <span class="stat" id="attempts">Tentativas: 0</span>
     <div class="stat xp-stat" id="pairs" aria-label="Experiência">
-      <span class="xp-label">XP</span>
-      <div class="xp-track"><div class="xp-fill" id="xpFill"></div></div>
-      <span class="xp-value" id="xpText">0/20</span>
+      <div class="xp-track">
+        <div class="xp-fill" id="xpFill"></div>
+        <span class="xp-value" id="xpText">0/20</span>
+      </div>
     </div>
     <span class="stat" id="timer">Tempo: 00:00</span>
   </div>
@@ -951,6 +979,10 @@ let locked = false;
 let attempts = 0;
 let pairs = 0;
 let matched = 0;
+let correctStreak = 0;
+let currentLevel = 1;
+let unlockedAchievements = new Set();
+let toastTimeout = null;
 
 let seconds = 0;
 let timerInterval = null;
@@ -1364,6 +1396,7 @@ function startGame() {
     document.getElementById("game").style.display = "block";
 
     attempts = pairs = matched = 0;
+    correctStreak = 0; currentLevel = 1; unlockedAchievements = new Set();
     firstCard = null;
     locked = true;
     gameFinished = false;
@@ -1399,6 +1432,7 @@ function startBrocheMode() {
     document.getElementById("game").style.display = "block";
 
     attempts = pairs = matched = 0;
+    correctStreak = 0; currentLevel = 1; unlockedAchievements = new Set();
     firstCard = null;
     locked = true;
     gameFinished = false;
@@ -1522,8 +1556,11 @@ function flipCard(element,index) {
 
         pairs++;
         matched += 2;
+        correctStreak++;
 
         playSound("match");
+        checkAchievements();
+        if (pairs > 0 && pairs % 5 === 0 && pairs < activePairs) triggerLevelUp();
         spawnXP(element,secondCard.element);
         updateInfo();
 
@@ -1533,6 +1570,7 @@ function flipCard(element,index) {
 
     // ERRO
     } else {
+        correctStreak = 0;
         playSound("wrong");
         updateInfo();
 
@@ -1544,6 +1582,49 @@ function flipCard(element,index) {
             locked = false;
         },850);
     }
+}
+
+// =========================
+// CONQUISTAS E LEVEL UP
+// =========================
+function showGameToast(title, detail) {
+    const toast = document.getElementById("gameToast");
+    if (!toast) return;
+    toast.innerHTML = `${title}<small>${detail}</small>`;
+    toast.classList.add("show");
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => toast.classList.remove("show"), 2300);
+}
+
+function unlockAchievement(id, title, detail) {
+    if (unlockedAchievements.has(id)) return;
+    unlockedAchievements.add(id);
+    showGameToast("🏆 CONQUISTA DESBLOQUEADA", `${title} — ${detail}`);
+}
+
+function checkAchievements() {
+    if (pairs >= 1) unlockAchievement("first", "Primeiro minério", "Encontrou seu primeiro par!");
+    if (pairs >= 10) unlockAchievement("ten", "Mineiro experiente", "Encontrou 10 pares!");
+    if (correctStreak >= 3) unlockAchievement("streak", "Combo perfeito", "3 pares seguidos sem errar!");
+    if (pairs === activePairs && attempts === activePairs) unlockAchievement("perfect", "Memória lendária", "Terminou sem errar!");
+}
+
+function triggerLevelUp() {
+    currentLevel++;
+    const flash = document.getElementById("levelFlash");
+    const track = document.querySelector(".xp-track");
+    if (flash) {
+        flash.classList.remove("show");
+        void flash.offsetWidth;
+        flash.classList.add("show");
+    }
+    if (track) {
+        track.classList.remove("level-pulse");
+        void track.offsetWidth;
+        track.classList.add("level-pulse");
+    }
+    playSound("win");
+    showGameToast("✦ LEVEL UP!", `Você chegou ao nível ${currentLevel}!`);
 }
 
 // =========================
@@ -1731,23 +1812,23 @@ function portalTransition(callback) {
 function spawnXP(a,b) {
     const rectA=a.getBoundingClientRect();
     const rectB=b.getBoundingClientRect();
-
-    const cx=(rectA.left+rectB.left+rectA.width/2+rectB.width/2)/2;
-    const cy=(rectA.top+rectB.top+rectA.height/2+rectB.height/2)/2;
-
-    for(let i=0;i<10;i++){
-        const p=document.createElement("span");
-        p.className="xp-particle";
-        p.textContent=i%3===0?"✦":"●";
-
-        p.style.left=cx+"px";
-        p.style.top=cy+"px";
-
-        p.style.setProperty("--dx",(Math.random()*130-65)+"px");
-
-        document.body.appendChild(p);
-
-        setTimeout(()=>p.remove(),900);
+    const target=document.querySelector(".xp-track");
+    const targetRect=target ? target.getBoundingClientRect() : {left:innerWidth/2,top:20,width:0,height:0};
+    const cx=(rectA.left+rectA.width/2+rectB.left+rectB.width/2)/2;
+    const cy=(rectA.top+rectA.height/2+rectB.top+rectB.height/2)/2;
+    const tx=targetRect.left+targetRect.width/2-cx;
+    const ty=targetRect.top+targetRect.height/2-cy;
+    for(let i=0;i<8;i++){
+        const orb=document.createElement("span");
+        orb.className="xp-orb";
+        orb.textContent="✦";
+        orb.style.left=(cx+(Math.random()*34-17))+"px";
+        orb.style.top=(cy+(Math.random()*24-12))+"px";
+        orb.style.setProperty("--tx",(tx+(Math.random()*18-9))+"px");
+        orb.style.setProperty("--ty",(ty+(Math.random()*12-6))+"px");
+        orb.style.animationDelay=(i*.035)+"s";
+        document.body.appendChild(orb);
+        setTimeout(()=>orb.remove(),950);
     }
 }
 
