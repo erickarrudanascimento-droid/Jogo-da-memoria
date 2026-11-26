@@ -1424,39 +1424,47 @@ body { height:100dvh; }
 }
 #menu .menu-logo::after { display:none !important; }
 
-/* Texturas originais somente nas laterais, deixando o centro livre */
+/* Pedra vanilla cobrindo TODO o menu, sem faixas laterais ou centro vazio */
 #menu .vanilla-block-textures {
   position:absolute !important;
   inset:0 !important;
   z-index:0 !important;
   pointer-events:none !important;
-  opacity:.48 !important;
-  background-image:
-    linear-gradient(90deg,rgba(0,0,0,.08),transparent 20%,transparent 80%,rgba(0,0,0,.08)),
-    var(--mc-deepslate),
-    var(--mc-cobbled-deepslate);
-  background-size:100% 100%,80px 80px,80px 80px;
-  background-position:center,left top,right top;
-  background-repeat:no-repeat,repeat-y,repeat-y;
-  -webkit-mask-image:linear-gradient(90deg,#000 0%,#000 12%,transparent 27%,transparent 73%,#000 88%,#000 100%);
-  mask-image:linear-gradient(90deg,#000 0%,#000 12%,transparent 27%,transparent 73%,#000 88%,#000 100%);
+  opacity:1 !important;
   image-rendering:pixelated;
+  background-image:
+    linear-gradient(rgba(2,10,12,.48),rgba(2,10,12,.48)),
+    var(--mc-cobbled-deepslate);
+  background-size:100% 100%,64px 64px;
+  background-position:center,0 0;
+  background-repeat:no-repeat,repeat;
+  -webkit-mask-image:none !important;
+  mask-image:none !important;
 }
 
-/* Sculk Veins originais em poucos pontos no teto */
+/* Vinhas de sculk descendo do teto em várias colunas */
 #menu .sculk-vines {
   position:absolute !important;
   inset:0 0 auto 0 !important;
-  height:108px !important;
+  height:clamp(190px,34vh,290px) !important;
   z-index:2 !important;
   pointer-events:none !important;
   overflow:hidden !important;
-  opacity:.62 !important;
-  filter:drop-shadow(0 0 3px rgba(75,255,226,.25)) !important;
-  background-image:var(--mc-sculk-vein),var(--mc-sculk-vein);
-  background-size:112px 112px,112px 112px;
-  background-position:left top,right top;
-  background-repeat:no-repeat,no-repeat;
+  opacity:.88 !important;
+  image-rendering:pixelated;
+  background-image:
+    linear-gradient(180deg,rgba(0,8,10,.05),transparent 85%),
+    var(--mc-sculk-vein),var(--mc-sculk-vein),var(--mc-sculk-vein),var(--mc-sculk-vein),
+    var(--mc-sculk-vein),var(--mc-sculk-vein),var(--mc-sculk-vein);
+  background-size:
+    100% 100%,
+    48px 112px,48px 150px,48px 96px,48px 132px,48px 108px,48px 160px,48px 120px;
+  background-position:
+    center,
+    4% 0,18% 0,34% 0,61% 0,76% 0,89% 0,98% 0;
+  background-repeat:
+    no-repeat,repeat-y,repeat-y,repeat-y,repeat-y,repeat-y,repeat-y,repeat-y;
+  filter:drop-shadow(0 0 4px rgba(55,225,205,.35));
 }
 #menu .sculk-vines svg { display:none !important; }
 
@@ -1477,8 +1485,8 @@ body { height:100dvh; }
   border-color:rgba(75,153,145,.35) !important;
 }
 @media(max-width:700px) {
-  #menu .vanilla-block-textures { opacity:.35 !important; }
-  #menu .sculk-vines { height:76px !important; background-size:80px 80px,80px 80px; }
+  #menu .vanilla-block-textures { opacity:1 !important; background-size:100% 100%,48px 48px; }
+  #menu .sculk-vines { height:190px !important; background-size:100% 100%,36px 88px,36px 112px,36px 76px,36px 96px,36px 84px,36px 120px,36px 92px; }
 }
 
 
