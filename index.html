@@ -577,8 +577,29 @@ button, a, select, input, .card { cursor:pointer; }
 .firework {position:absolute;width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 10px currentColor;animation:fireworkBurst .8s ease-out forwards;}
 @keyframes fireworkBurst {to{transform:translate(var(--fx),var(--fy)) scale(0);opacity:0}}
 .pixel-mascot {display:inline-flex;flex-direction:column;align-items:center;margin:8px auto;animation:mascotBob 2s ease-in-out infinite;}
-.creeper-face {width:64px;height:64px;background:#51c94a;border:5px solid #195c21;box-shadow:inset -8px -8px #279333,0 5px #082a17;position:relative;image-rendering:pixelated;}
-.creeper-face:before {content:"";position:absolute;left:10px;top:13px;width:12px;height:12px;background:#102e18;box-shadow:30px 0 #102e18,10px 12px #102e18,20px 12px #102e18,0 24px #102e18,10px 24px #102e18,20px 24px #102e18,30px 24px #102e18;}
+/* Mascote Warden em arte pixelada CSS */
+.warden-face {
+  width:72px;height:76px;position:relative;image-rendering:pixelated;
+  background:linear-gradient(90deg,#18282b 0 12%,#34494a 12% 88%,#18282b 88%);
+  border:4px solid #152326;box-shadow:inset 0 -8px #1b3032,0 5px #071416;
+}
+.warden-face:before {
+  content:"";position:absolute;left:12px;top:-13px;width:40px;height:31px;
+  background:linear-gradient(90deg,#25383a 0 18%,#536363 18% 82%,#25383a 82%);
+  border:3px solid #142326;box-shadow:
+    -13px -9px 0 -5px #536363, -17px -15px 0 -7px #25383a,
+    13px -9px 0 -5px #536363, 17px -15px 0 -7px #25383a,
+    inset 0 -5px #1b2c2e;
+}
+.warden-face:after {
+  content:"";position:absolute;left:25px;top:9px;width:7px;height:5px;
+  background:#54f4df;box-shadow:13px 0 #54f4df,0 2px 8px 2px rgba(58,255,226,.55),13px 2px 8px 2px rgba(58,255,226,.55);
+}
+.warden-face span {
+  position:absolute;left:26px;top:43px;width:15px;height:15px;
+  background:#29d9c7;box-shadow:0 0 8px #39ffe4,0 0 16px rgba(57,255,228,.8),
+    -7px 6px 0 -4px #1a8f87,7px 6px 0 -4px #1a8f87;
+}
 .mascot-speech {max-width:290px;background:#032a48;border:2px solid #9df7ff;border-radius:8px;padding:7px 12px;color:#dfffff;font-size:14px;font-weight:bold;}
 @keyframes mascotBob{50%{transform:translateY(-7px) rotate(2deg)}}
 #victory .panel {position:relative;overflow:hidden;animation:victoryPop .55s cubic-bezier(.2,1.4,.5,1);}
@@ -1594,7 +1615,7 @@ body { height:100dvh; }
     </div>
 
     <div class="pixel-mascot" id="menuMascot">
-      <div class="creeper-face"></div>
+      <div class="warden-face"><span></span></div>
       <div class="mascot-speech" id="mascotSpeech">Psst... encontre os pares!</div>
     </div>
 
@@ -1718,7 +1739,7 @@ body { height:100dvh; }
     <p id="brocheMessage" style="font-weight:bold;color:#8ff7ff;"></p>
 
     <div class="pixel-mascot">
-      <div class="creeper-face"></div>
+      <div class="warden-face"><span></span></div>
       <div class="mascot-speech" id="victoryMascotSpeech">BOOM! Quer dizer... parabéns!</div>
     </div>
 
@@ -2294,7 +2315,7 @@ function timeExpired() {
 
     setMascotLine("victoryMascotSpeech", [
         "Quase! Mais uma tentativa!",
-        "O Creeper acredita em você!",
+        "O Warden acredita em você... eu acho!",
         "Memorize e tente novamente!"
     ]);
 }
@@ -2680,7 +2701,7 @@ const menuLines=[
     "Psst... encontre os pares!",
     "Cuidado: esse jogo vicia!",
     "Dica: fique atento ao embaralhamento!",
-    "Eu não explodo... hoje.",
+    "Não faça barulho... estou ouvindo.",
     "Seu cérebro vai ganhar XP!"
 ];
 
@@ -2704,7 +2725,7 @@ document.getElementById("menuMascot")?.addEventListener("click",()=>{
     if(mascotClicks>=5) {
         mascotClicks=0;
 
-        secretToast("🐸 EASTER EGG! O Creeper virou seu amigo (por enquanto). XP +50!");
+        secretToast("👁 EASTER EGG! O Warden percebeu você... XP +50!");
 
         playSound("win");
     }
