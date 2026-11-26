@@ -344,6 +344,81 @@ input[type="text"]:focus {
     margin-top:12px;
 }
 
+/* TEMA DEEP DARK / WARDEN — decoração exclusiva do menu */
+.menu-scene {
+    isolation:isolate;
+    border-color:#72eaff;
+    background:
+      radial-gradient(ellipse at 82% 48%,rgba(38,225,239,.24),transparent 32%),
+      radial-gradient(ellipse at 16% 78%,rgba(17,112,151,.35),transparent 38%),
+      linear-gradient(180deg,rgba(2,17,36,.2),rgba(1,13,29,.76) 68%,#020d20),
+      repeating-linear-gradient(0deg,transparent 0 42px,rgba(108,235,255,.045) 42px 44px),
+      repeating-linear-gradient(90deg,transparent 0 42px,rgba(108,235,255,.045) 42px 44px),
+      linear-gradient(145deg,#126b9c,#073d69 48%,#041a35);
+    box-shadow:0 0 34px rgba(54,224,255,.38),inset 0 0 50px rgba(0,0,0,.48);
+}
+.menu-scene::before {
+    opacity:.34;
+    background:
+      linear-gradient(135deg,transparent 48%,rgba(116,240,255,.2) 49% 51%,transparent 52%),
+      repeating-linear-gradient(0deg,transparent 0 68px,rgba(0,0,0,.25) 68px 72px);
+}
+.menu-scene::after {
+    content:"";
+    position:absolute;
+    z-index:0;
+    pointer-events:none;
+    right:3.5%;
+    bottom:8%;
+    width:clamp(90px,14vw,150px);
+    height:clamp(150px,28vh,235px);
+    opacity:.48;
+    image-rendering:pixelated;
+    background:
+      /* olhos brilhantes */
+      linear-gradient(#8cffff,#8cffff) 27% 25% / 18% 4% no-repeat,
+      linear-gradient(#8cffff,#8cffff) 55% 25% / 18% 4% no-repeat,
+      /* cabeça */
+      linear-gradient(90deg,transparent 8%,#031b30 8% 92%,transparent 92%) 50% 0 / 100% 34% no-repeat,
+      linear-gradient(#06243b,#06243b) 50% 31% / 78% 9% no-repeat,
+      /* ombros e corpo */
+      linear-gradient(90deg,transparent 0 8%,#03182c 8% 92%,transparent 92%) 50% 43% / 100% 18% no-repeat,
+      linear-gradient(#03182c,#03182c) 50% 59% / 58% 33% no-repeat,
+      /* detalhes sculk */
+      radial-gradient(circle,#36eaff 0 2px,transparent 3px) 15% 74% / 24px 24px,
+      radial-gradient(circle,#36eaff 0 2px,transparent 3px) 82% 55% / 22px 22px;
+    filter:drop-shadow(0 0 10px rgba(54,234,255,.55));
+    animation:wardenPulse 3.8s ease-in-out infinite;
+}
+@keyframes wardenPulse {
+    0%,100% { opacity:.34; filter:drop-shadow(0 0 7px rgba(54,234,255,.35)); }
+    50% { opacity:.58; filter:drop-shadow(0 0 18px rgba(54,234,255,.8)); }
+}
+.logo-title {
+    color:#f1ffff;
+    -webkit-text-stroke:2px #064b70;
+    text-shadow:0 5px #023653,0 9px #01243d,0 0 22px rgba(72,238,255,.45),4px 7px 10px #00101e;
+}
+.logo-subtitle {
+    color:#8afaff;
+    text-shadow:0 3px #03416a,0 0 18px #35eaff;
+}
+.menu-scene button {
+    border-color:#91f5ff;
+    background:linear-gradient(180deg,#168bb7 0%,#07547f 48%,#043653 100%);
+    box-shadow:0 5px #01243d,inset 0 2px rgba(255,255,255,.25),inset 0 -3px rgba(0,0,0,.18);
+}
+.menu-scene button:hover {
+    background:linear-gradient(180deg,#26c5d9,#087ba5 55%,#06496c);
+    box-shadow:0 5px #01243d,0 0 18px rgba(72,238,255,.65);
+}
+.menu-settings {
+    border-color:rgba(104,226,242,.72);
+    background:rgba(1,18,35,.86);
+    box-shadow:inset 0 0 18px rgba(37,188,213,.08);
+}
+.menu-footer { color:#8afaff; text-shadow:0 0 8px #23c9e8; }
+
 /* EMBARALHAMENTO */
 .card.shuffling {
     animation:shuffleCard .22s infinite alternate;
@@ -801,6 +876,696 @@ body { height:100dvh; }
 @keyframes levelFlash{0%{opacity:0}20%{opacity:1}100%{opacity:0}}
 @keyframes levelText{0%{transform:scale(.5) rotate(-5deg)}35%{transform:scale(1.12) rotate(2deg)}100%{transform:scale(1) rotate(0)}}
 
+
+
+/* MINECRAFT DEEP DARK — MENU MAIS BLOCKY */
+.menu-scene {
+  width:min(97vw,980px);
+  border:6px solid #182b36;
+  outline:3px solid #6feaff;
+  outline-offset:-11px;
+  border-radius:0;
+  background-color:#061522;
+  background-image:
+    radial-gradient(ellipse at 78% 54%,rgba(45,235,255,.22),transparent 28%),
+    radial-gradient(ellipse at 18% 80%,rgba(19,132,160,.30),transparent 30%),
+    linear-gradient(180deg,rgba(2,10,19,.18),rgba(1,8,17,.72) 67%,#020912 100%),
+    repeating-linear-gradient(0deg,transparent 0 31px,rgba(125,222,238,.045) 31px 33px),
+    repeating-linear-gradient(90deg,transparent 0 31px,rgba(125,222,238,.045) 31px 33px),
+    linear-gradient(145deg,#174a60 0%,#0b3048 40%,#061b30 72%,#020b18 100%);
+  box-shadow:0 0 0 5px #07131d,0 0 0 8px #2bbbd2,0 0 42px rgba(35,218,245,.45),inset 0 0 0 7px rgba(0,0,0,.42),inset 0 0 65px #000;
+}
+.menu-scene::before {
+  opacity:.8;
+  background:
+    /* blocos suspensos / teto de caverna */
+    linear-gradient(90deg,#06111c 0 100%) 0 0/100% 13px no-repeat,
+    linear-gradient(90deg,transparent 0 5%,#071522 5% 19%,transparent 19% 25%,#071522 25% 42%,transparent 42% 55%,#071522 55% 73%,transparent 73% 80%,#071522 80% 96%,transparent 96%) 0 0/100% 38px no-repeat,
+    linear-gradient(90deg,transparent 0 12%,#071522 12% 17%,transparent 17% 34%,#071522 34% 39%,transparent 39% 66%,#071522 66% 72%,transparent 72% 88%,#071522 88% 93%,transparent 93%) 0 0/100% 58px no-repeat,
+    /* chão em camadas de pedra */
+    linear-gradient(90deg,#07131e 0 100%) 0 100%/100% 18px no-repeat,
+    repeating-linear-gradient(90deg,#102b3a 0 44px,#0a1e2b 44px 48px) 0 100%/100% 42px no-repeat,
+    repeating-linear-gradient(90deg,transparent 0 48px,rgba(74,221,235,.12) 48px 51px) 0 100%/100% 42px no-repeat,
+    /* pixel grid / sculk */
+    radial-gradient(circle,#6af7ff 0 2px,transparent 3px) 9% 68%/28px 28px,
+    radial-gradient(circle,#42d9eb 0 2px,transparent 3px) 89% 72%/34px 34px,
+    radial-gradient(circle,#36bfd7 0 2px,transparent 3px) 23% 88%/24px 24px,
+    linear-gradient(135deg,transparent 48%,rgba(116,240,255,.12) 49% 51%,transparent 52%);
+  pointer-events:none;
+}
+.menu-scene::after {
+  right:2.5%; bottom:7%;
+  width:clamp(115px,17vw,185px);
+  height:clamp(190px,34vh,285px);
+  opacity:.78;
+  background:
+    /* Warden horns */
+    linear-gradient(90deg,transparent 0 18%,#061522 18% 34%,transparent 34% 66%,#061522 66% 82%,transparent 82%) 50% 0/100% 13% no-repeat,
+    linear-gradient(90deg,transparent 0 8%,#071a29 8% 25%,transparent 25% 75%,#071a29 75% 92%,transparent 92%) 50% 9%/100% 12% no-repeat,
+    /* glowing eyes */
+    linear-gradient(#9cffff,#9cffff) 27% 24%/19% 4% no-repeat,
+    linear-gradient(#9cffff,#9cffff) 54% 24%/19% 4% no-repeat,
+    /* head / jaw */
+    linear-gradient(90deg,transparent 8%,#061827 8% 92%,transparent 92%) 50% 17%/100% 25% no-repeat,
+    linear-gradient(#09263a,#09263a) 50% 39%/76% 9% no-repeat,
+    /* shoulders, chest and arms */
+    linear-gradient(90deg,transparent 0 3%,#061522 3% 28%,transparent 28% 72%,#061522 72% 97%,transparent 97%) 50% 49%/100% 22% no-repeat,
+    linear-gradient(#061522,#061522) 50% 60%/56% 33% no-repeat,
+    /* soul core */
+    linear-gradient(#42eaff,#42eaff) 50% 53%/13% 7% no-repeat,
+    linear-gradient(#1689a8,#1689a8) 50% 61%/8% 5% no-repeat,
+    /* sculk pixels */
+    radial-gradient(circle,#64f5ff 0 3px,transparent 4px) 7% 74%/25px 25px,
+    radial-gradient(circle,#42dff1 0 3px,transparent 4px) 91% 58%/26px 26px;
+  filter:drop-shadow(0 0 8px rgba(54,234,255,.75));
+}
+.menu-logo { z-index:2; }
+.menu-logo::after {
+  content:"BIOMA: DEEP DARK  •  PERIGO DETECTADO";
+  display:block;
+  width:max-content;
+  max-width:90%;
+  margin:10px auto 0;
+  padding:5px 12px;
+  color:#a9fbff;
+  background:rgba(0,8,15,.82);
+  border:2px solid #287b8b;
+  box-shadow:0 3px 0 #03121d,0 0 13px rgba(54,234,255,.28);
+  font:900 10px/1.2 monospace;
+  letter-spacing:2px;
+}
+.logo-pickaxe { filter:drop-shadow(3px 4px 0 #071a28) drop-shadow(0 0 10px #37d9ed); }
+.logo-title {
+  font-family:Impact,"Arial Black",monospace;
+  letter-spacing:2px;
+  -webkit-text-stroke:3px #142c3b;
+  text-shadow:0 4px #3d6574,0 8px #102b3d,0 11px #061522,4px 8px 0 #020912,0 0 24px rgba(78,235,255,.65);
+  filter:drop-shadow(0 0 8px rgba(52,213,236,.25));
+}
+.logo-subtitle {
+  display:table;
+  margin:9px auto 0;
+  padding:4px 14px;
+  color:#d8ffff;
+  background:#07506a;
+  border:3px solid #173b4b;
+  box-shadow:0 4px 0 #03121d,inset 0 0 0 2px #2ca6b9,0 0 16px rgba(58,226,245,.38);
+  letter-spacing:4px;
+  text-shadow:2px 2px #063246;
+}
+.menu-buttons { z-index:3; max-width:490px; }
+.menu-scene button,
+.menu-scene .main-menu-button {
+  border:3px solid #101c25;
+  border-radius:0;
+  color:#fff;
+  background:
+    linear-gradient(90deg,rgba(255,255,255,.08) 0 2px,transparent 2px 8px),
+    linear-gradient(180deg,#858b8e 0%,#626a70 48%,#414b52 50%,#59636a 100%);
+  box-shadow:0 5px 0 #101b22,0 7px 0 #02080d,inset 0 2px 0 rgba(255,255,255,.35),inset 0 -4px 0 rgba(0,0,0,.22);
+  text-shadow:2px 2px #26323a,-1px -1px #26323a;
+  image-rendering:pixelated;
+  transition:filter .12s,transform .12s,box-shadow .12s;
+}
+.menu-scene button:hover {
+  color:#efffff;
+  background:linear-gradient(180deg,#24a6bb 0%,#14788f 48%,#075267 50%,#0c7185 100%);
+  box-shadow:0 5px 0 #082b36,0 7px 0 #02080d,inset 0 2px 0 rgba(255,255,255,.4),0 0 22px #35e8f6;
+  filter:brightness(1.15);
+  transform:translateY(-1px);
+}
+.menu-scene button:active { transform:translateY(4px);box-shadow:0 1px 0 #101b22,inset 0 2px 5px rgba(0,0,0,.4); }
+.menu-settings {
+  border:3px solid #182d39;
+  border-radius:0;
+  background:rgba(5,18,28,.94);
+  box-shadow:0 4px 0 #02080d,inset 0 0 0 2px #235a68,inset 0 0 22px rgba(46,207,225,.12);
+}
+.menu-settings select, .menu-buttons input[type="text"] {
+  border:3px solid #172c39 !important;
+  border-radius:0 !important;
+  box-shadow:inset 0 0 0 2px #2b6878,0 3px 0 #02080d;
+}
+#bestRecord { color:#9effff; text-shadow:2px 2px #03121d,0 0 10px #35d9eb; }
+.menu-footer {
+  display:inline-block;
+  padding:5px 10px;
+  background:rgba(0,8,15,.78);
+  border:2px solid rgba(61,185,202,.5);
+  color:#b5fbff;
+  text-shadow:2px 2px #032332;
+}
+@media(max-width:700px) {
+  .menu-logo::after {font-size:8px;letter-spacing:1px;margin-top:6px;}
+  .menu-scene::after {right:0;opacity:.42;width:90px;height:150px;}
+}
+
+
+/* VINHAS DE CAVERNA — visual simples inspirado nas texturas vanilla do Minecraft */
+.sculk-vines {
+  position:absolute; inset:0 0 auto 0; height:clamp(155px,31vh,270px);
+  z-index:1; pointer-events:none; overflow:hidden;
+  filter:drop-shadow(0 0 3px rgba(67,224,211,.28));
+}
+.sculk-vines svg { width:100%; height:100%; display:block; overflow:visible; }
+.sculk-vines .stem {
+  fill:none; stroke:#397f72; stroke-width:3; stroke-linecap:square;
+  opacity:.88;
+}
+.sculk-vines .glow-berry {
+  fill:#8fffe4; opacity:.88;
+  filter:drop-shadow(0 0 4px rgba(87,255,222,.65));
+}
+@media(max-width:700px) {
+  .sculk-vines { height:clamp(115px,22vh,175px); opacity:.82; }
+}
+@media(prefers-reduced-motion:reduce) { .sculk-vines svg { animation:none; } }
+
+
+
+/* GAMEPLAY NO MESMO VISUAL DEEP DARK / WARDEN DO MENU */
+#game {
+  position:relative;
+  isolation:isolate;
+  background:
+    radial-gradient(ellipse at 50% 18%,rgba(37,205,224,.18),transparent 38%),
+    radial-gradient(ellipse at 8% 85%,rgba(16,115,143,.18),transparent 32%),
+    linear-gradient(180deg,#061a2a 0%,#041321 58%,#020b14 100%);
+  color:#e8fcff;
+}
+#game::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  opacity:.48;
+  background:
+    linear-gradient(90deg,transparent 0 7%,rgba(9,111,132,.42) 7% 7.5%,transparent 7.5% 92%,rgba(9,111,132,.38) 92% 92.5%,transparent 92.5%),
+    repeating-linear-gradient(90deg,transparent 0 58px,rgba(73,205,220,.035) 58px 60px),
+    repeating-linear-gradient(0deg,transparent 0 58px,rgba(73,205,220,.035) 58px 60px),
+    radial-gradient(circle,rgba(83,236,255,.55) 0 2px,transparent 3px) 8% 23%/34px 34px,
+    radial-gradient(circle,rgba(83,236,255,.4) 0 2px,transparent 3px) 91% 68%/29px 29px;
+}
+#game > * { position:relative; z-index:1; }
+#game > h1 {
+  color:#eaffff;
+  font-family:Impact,"Arial Black",monospace;
+  letter-spacing:2px;
+  -webkit-text-stroke:1px #07546b;
+  text-shadow:0 4px #062b3b,0 7px #031724,0 0 20px rgba(66,232,245,.55);
+}
+#game .stat:not(.xp-stat) {
+  color:#e8fdff;
+  background:linear-gradient(180deg,#173744 0%,#0b2635 48%,#061925 100%);
+  border:3px solid #132d39;
+  border-radius:0;
+  box-shadow:0 4px 0 #020a10,inset 0 0 0 2px rgba(77,211,229,.24),inset 0 2px rgba(255,255,255,.13);
+  text-shadow:2px 2px #03131c;
+}
+#game .xp-stat { filter:drop-shadow(0 3px 0 #020a10); }
+#game .xp-track {
+  height:17px;
+  border:3px solid #172b36;
+  background:#101b22;
+  box-shadow:inset 0 0 0 1px #52717a,0 0 0 1px #020a10,0 0 10px rgba(69,229,244,.2);
+}
+#game .xp-fill {
+  background:
+    repeating-linear-gradient(90deg,rgba(0,0,0,.16) 0 2px,transparent 2px 7px),
+    linear-gradient(180deg,#a6ffff 0%,#50e9f3 42%,#13a7c3 100%);
+  box-shadow:inset 0 1px rgba(255,255,255,.65),inset 0 -2px rgba(0,42,63,.4),0 0 8px rgba(72,235,255,.45);
+}
+#game .card {
+  border:3px solid #163b49;
+  border-radius:0;
+  background:#073246;
+  box-shadow:inset 0 0 0 2px rgba(90,226,241,.16),0 4px 0 #020d15,0 0 7px rgba(48,206,226,.12);
+}
+#game .card-back {
+  background-color:#082b3a;
+  background-image:
+    linear-gradient(90deg,transparent 0 17%,rgba(16,129,148,.55) 17% 21%,transparent 21% 79%,rgba(16,129,148,.45) 79% 83%,transparent 83%),
+    linear-gradient(180deg,transparent 0 18%,rgba(5,18,30,.45) 18% 23%,transparent 23% 77%,rgba(5,18,30,.5) 77% 82%,transparent 82%),
+    radial-gradient(circle,#68f5ff 0 2px,transparent 3px) 50% 50%/24px 24px,
+    repeating-linear-gradient(0deg,transparent 0 10px,rgba(0,0,0,.14) 10px 12px),
+    repeating-linear-gradient(90deg,transparent 0 10px,rgba(81,220,233,.09) 10px 12px),
+    linear-gradient(145deg,#12647a,#07394e 58%,#031b2a);
+  image-rendering:pixelated;
+}
+#game .card:hover:not(.revealed):not(.matched) {
+  border-color:#69f0ff;
+  box-shadow:inset 0 0 0 2px rgba(90,226,241,.22),0 4px 0 #020d15,0 0 15px rgba(59,226,246,.48);
+}
+#game .card.matched {
+  border-color:#73f2f7;
+  box-shadow:0 0 0 2px #082a36,0 0 16px rgba(61,231,245,.72);
+}
+#game .card.matched::after {
+  background:
+    linear-gradient(28deg,transparent 0 43%,rgba(3,29,43,.95) 44% 46%,transparent 47%),
+    linear-gradient(115deg,transparent 0 28%,rgba(4,46,61,.9) 29% 31%,transparent 32%),
+    linear-gradient(75deg,transparent 0 68%,rgba(3,34,49,.9) 69% 71%,transparent 72%),
+    linear-gradient(160deg,transparent 0 54%,rgba(4,43,57,.9) 55% 57%,transparent 58%);
+}
+#game > button {
+  border:3px solid #142d3a;
+  border-radius:0;
+  color:#f1ffff;
+  background:linear-gradient(180deg,#247e91 0%,#14566b 48%,#0b3548 50%,#10485a 100%);
+  box-shadow:0 4px 0 #020a10,inset 0 2px rgba(255,255,255,.25),inset 0 -3px rgba(0,0,0,.2);
+  text-shadow:2px 2px #062431;
+  letter-spacing:1px;
+}
+#game > button:hover {
+  background:linear-gradient(180deg,#39c5d4 0%,#16849a 50%,#0b536a 100%);
+  box-shadow:0 4px 0 #020a10,0 0 16px rgba(72,238,255,.5);
+}
+#game > button:active { transform:translateY(3px); }
+@media(max-width:600px) {
+  #game .stat:not(.xp-stat) { border-width:2px; }
+  #game .card { border-width:2px; }
+}
+
+
+
+/* MENU — CAVERNA DEEP DARK, inspirado na referência enviada */
+#menu .menu-scene {
+  position:relative;
+  isolation:isolate;
+  border:7px solid #071116;
+  outline:2px solid #247c83;
+  outline-offset:-12px;
+  background-color:#02090c;
+  background-image:
+    radial-gradient(ellipse at 50% 53%,rgba(14,95,99,.20),transparent 34%),
+    radial-gradient(circle at 50% 58%,rgba(63,246,226,.18),transparent 3%,transparent 27%),
+    linear-gradient(90deg,#02080b 0%,rgba(1,8,12,.94) 17%,rgba(0,5,9,.28) 36%,rgba(0,5,9,.28) 64%,rgba(1,8,12,.94) 83%,#02080b 100%),
+    /* parede esquerda em blocos */
+    repeating-linear-gradient(0deg,transparent 0 31px,rgba(0,0,0,.55) 31px 35px),
+    repeating-linear-gradient(90deg,#12343a 0 25px,#0a242b 25px 29px,#174149 29px 51px,#09232a 51px 55px),
+    /* parede direita */
+    linear-gradient(90deg,transparent 0 82%,rgba(0,0,0,.1) 82%),
+    repeating-linear-gradient(0deg,transparent 0 31px,rgba(0,0,0,.55) 31px 35px),
+    repeating-linear-gradient(90deg,#12343a 0 25px,#0a242b 25px 29px,#174149 29px 51px,#09232a 51px 55px),
+    linear-gradient(180deg,#010609 0%,#04151a 70%,#0a2024 100%);
+  background-size:100% 100%,100% 100%,100% 100%,
+    17% 100%,17% 100%,100% 100%,17% 100%,17% 100%,100% 100%;
+  background-position:center,center,center,left top,left top,right top,right top,right top,center;
+  background-repeat:no-repeat;
+  box-shadow:0 0 0 5px #02080b,0 0 42px rgba(32,210,199,.25),inset 0 0 70px #000;
+}
+#menu .menu-scene::before {
+  opacity:1;
+  background:
+    /* vinhas penduradas no teto, em pixel art */
+    linear-gradient(#1a7777,#1a7777) 8% 0/3px 24% no-repeat,
+    linear-gradient(90deg,transparent 0 35%,#2ab5aa 35% 65%,transparent 65%) 6% 18%/20px 12px no-repeat,
+    linear-gradient(#1b817c,#1b817c) 15% 0/3px 17% no-repeat,
+    linear-gradient(90deg,transparent 0 30%,#35c7b5 30% 70%,transparent 70%) 13% 12%/22px 10px no-repeat,
+    linear-gradient(#16706e,#16706e) 27% 0/3px 29% no-repeat,
+    linear-gradient(90deg,transparent 0 30%,#2bb7a9 30% 70%,transparent 70%) 24% 24%/22px 12px no-repeat,
+    linear-gradient(#1b8b83,#1b8b83) 39% 0/3px 13% no-repeat,
+    linear-gradient(90deg,transparent 0 30%,#36cbb8 30% 70%,transparent 70%) 36% 9%/22px 10px no-repeat,
+    linear-gradient(#1a7777,#1a7777) 64% 0/3px 22% no-repeat,
+    linear-gradient(90deg,transparent 0 30%,#2ab5aa 30% 70%,transparent 70%) 61% 18%/22px 12px no-repeat,
+    linear-gradient(#16706e,#16706e) 78% 0/3px 31% no-repeat,
+    linear-gradient(90deg,transparent 0 30%,#35c7b5 30% 70%,transparent 70%) 75% 27%/22px 12px no-repeat,
+    linear-gradient(#1b817c,#1b817c) 91% 0/3px 18% no-repeat,
+    linear-gradient(90deg,transparent 0 30%,#2bb7a9 30% 70%,transparent 70%) 88% 14%/22px 10px no-repeat,
+    /* chão de blocos sculk */
+    repeating-linear-gradient(90deg,#0b2429 0 35px,#173b3d 35px 39px) 0 100%/100% 13% no-repeat,
+    repeating-linear-gradient(0deg,transparent 0 23px,rgba(0,0,0,.65) 23px 27px) 0 100%/100% 13% no-repeat,
+    /* brilhos de sculk */
+    radial-gradient(circle,#70fff0 0 2px,transparent 3px) 17% 70%/39px 37px,
+    radial-gradient(circle,#48dacf 0 2px,transparent 3px) 82% 63%/43px 41px,
+    radial-gradient(circle,#55f4e5 0 1.5px,transparent 3px) 49% 39%/53px 47px;
+  pointer-events:none;
+}
+#menu .menu-scene::after {
+  opacity:.9;
+  filter:drop-shadow(0 0 12px rgba(41,238,220,.65));
+}
+#menu .menu-logo { position:relative; z-index:4; }
+#menu .logo-title {
+  color:#e5fffa;
+  -webkit-text-stroke:3px #092a2d;
+  text-shadow:0 4px #285e5d,0 8px #102e31,0 11px #02090c,0 0 24px rgba(71,255,235,.6);
+}
+#menu .logo-subtitle {
+  color:#aafff4;
+  background:linear-gradient(180deg,#164b4b,#08272c);
+  border-color:#286b68;
+  box-shadow:0 4px 0 #02090c,inset 0 0 0 2px #318f88,0 0 18px rgba(48,232,213,.3);
+}
+#menu .menu-logo::after {
+  color:#b4fff4;
+  background:rgba(0,7,10,.88);
+  border-color:#286b68;
+  box-shadow:0 3px 0 #02090c,0 0 13px rgba(54,234,220,.28);
+}
+#menu .menu-scene button,
+#menu .menu-settings {
+  border-color:#183b3d;
+  background:linear-gradient(180deg,#456d6a 0%,#2d514f 48%,#1b393a 50%,#315654 100%);
+  box-shadow:0 5px 0 #071719,0 7px 0 #020607,inset 0 2px 0 rgba(225,255,247,.24),inset 0 -4px 0 rgba(0,0,0,.28);
+}
+#menu .menu-scene button:hover {
+  background:linear-gradient(180deg,#329e96,#176b68 50%,#104b4b);
+  box-shadow:0 5px 0 #071719,0 7px 0 #020607,inset 0 2px 0 rgba(225,255,247,.3),0 0 22px #35e8d6;
+}
+#menu .menu-settings {
+  background:rgba(1,13,16,.93);
+  border-color:#286b68;
+}
+#menu .menu-settings select,
+#menu .menu-buttons input[type="text"] {
+  background:#102b2e !important;
+  color:#eafffb !important;
+  border-color:#286b68 !important;
+}
+#menu #bestRecord,#menu .menu-footer { color:#b5fff4; }
+@media(max-width:700px) {
+  #menu .menu-scene::after { opacity:.42; }
+}
+
+
+
+/* DEEP DARK: mais Minecraft, com blocos cúbicos e interface vanilla */
+#menu .menu-scene{
+  border:8px solid #10191b !important;
+  outline:4px solid #365b59 !important;
+  outline-offset:-15px !important;
+  border-radius:0 !important;
+  background-color:#020708 !important;
+  background-image:
+    /* céu/abismo central */
+    radial-gradient(ellipse at 50% 57%,rgba(28,150,145,.19),transparent 28%),
+    linear-gradient(180deg,#010405 0%,#02090b 54%,#071316 76%,#020607 100%),
+    /* blocos da parede esquerda */
+    repeating-linear-gradient(0deg,transparent 0 34px,rgba(0,0,0,.82) 34px 39px),
+    repeating-linear-gradient(90deg,#214448 0 26px,#102c30 26px 30px,#18383b 30px 57px,#0a2025 57px 61px),
+    /* blocos da parede direita */
+    repeating-linear-gradient(0deg,transparent 0 34px,rgba(0,0,0,.82) 34px 39px),
+    repeating-linear-gradient(90deg,#214448 0 26px,#102c30 26px 30px,#18383b 30px 57px,#0a2025 57px 61px),
+    /* piso em degraus */
+    repeating-linear-gradient(90deg,#10292c 0 38px,#28494a 38px 42px) bottom/100% 17% no-repeat,
+    repeating-linear-gradient(0deg,transparent 0 27px,#02090b 27px 32px) bottom/100% 17% no-repeat;
+  background-size:100% 100%,100% 100%,18% 100%,18% 100%,18% 100%,18% 100%,100% 17%,100% 17% !important;
+  background-position:center,center,left top,left top,right top,right top,bottom,bottom !important;
+  background-repeat:no-repeat !important;
+  box-shadow:0 0 0 5px #050b0d,0 0 0 9px #1b3738,0 0 45px rgba(45,223,205,.28),inset 0 0 75px #000 !important;
+  image-rendering:pixelated;
+}
+#menu .menu-scene::before{
+  opacity:1 !important;
+  background-image:
+    /* saliências quadradas no teto */
+    linear-gradient(#03090b,#03090b) 0 0/100% 18px no-repeat,
+    linear-gradient(90deg,#081417 0 9%,transparent 9% 15%,#081417 15% 29%,transparent 29% 38%,#081417 38% 47%,transparent 47% 58%,#081417 58% 73%,transparent 73% 81%,#081417 81% 96%,transparent 96%) 0 0/100% 48px no-repeat,
+    /* blocos inferiores em perspectiva */
+    linear-gradient(90deg,#071316 0 13%,transparent 13% 87%,#071316 87%) bottom/100% 26% no-repeat,
+    repeating-linear-gradient(90deg,#173438 0 34px,#071619 34px 39px) bottom/100% 13% no-repeat,
+    repeating-linear-gradient(0deg,transparent 0 26px,rgba(0,0,0,.8) 26px 31px) bottom/100% 13% no-repeat,
+    /* veios de sculk pixelados */
+    radial-gradient(circle,#73fff0 0 2px,transparent 3px) 8% 70%/43px 39px,
+    radial-gradient(circle,#36bdb5 0 2px,transparent 3px) 91% 66%/47px 42px,
+    radial-gradient(circle,#5ffff0 0 1.5px,transparent 3px) 48% 45%/59px 53px !important;
+  pointer-events:none;
+}
+/* Painéis como placas de pedra do Minecraft */
+#menu .menu-scene button,
+#menu .menu-settings{
+  border:3px solid #111b1d !important;
+  border-radius:0 !important;
+  background:linear-gradient(180deg,#777f7c 0%,#596461 45%,#414b49 46%,#626d69 100%) !important;
+  box-shadow:0 4px 0 #172020,0 7px 0 #05090a,inset 0 2px 0 rgba(255,255,255,.25),inset 0 -4px 0 rgba(0,0,0,.32) !important;
+  color:#f2fff9 !important;
+  text-shadow:2px 2px #263431 !important;
+  letter-spacing:1px;
+  image-rendering:pixelated;
+}
+#menu .menu-scene button:hover{
+  background:linear-gradient(180deg,#398e83 0%,#24665f 45%,#16443f 46%,#2d7770 100%) !important;
+  box-shadow:0 4px 0 #102321,0 7px 0 #05090a,inset 0 2px 0 rgba(255,255,255,.28),0 0 18px rgba(71,255,230,.5) !important;
+  transform:translateY(-1px);
+}
+#menu .menu-scene button:active{transform:translateY(3px) !important;box-shadow:0 1px 0 #172020,inset 0 3px 5px #111 !important;}
+#menu .menu-settings{
+  background:linear-gradient(180deg,rgba(40,58,56,.96),rgba(14,28,29,.98)) !important;
+  border-color:#263d3d !important;
+  outline:2px solid rgba(103,190,174,.22);
+}
+#menu .menu-settings select,
+#menu .menu-buttons input[type="text"]{
+  border:3px solid #111b1d !important;
+  border-radius:0 !important;
+  background:linear-gradient(#1d3434,#0b1c1e) !important;
+  box-shadow:inset 2px 2px 0 rgba(255,255,255,.12),inset -2px -2px 0 rgba(0,0,0,.5) !important;
+  color:#eafff8 !important;
+}
+#menu .logo-title{
+  font-family:monospace !important;
+  font-weight:1000 !important;
+  letter-spacing:2px !important;
+  -webkit-text-stroke:2px #172c2d !important;
+  text-shadow:3px 3px 0 #365d58,6px 6px 0 #102321,0 0 22px rgba(78,255,230,.5) !important;
+}
+#menu .logo-subtitle{
+  border:3px solid #1b4946 !important;
+  border-radius:0 !important;
+  padding:7px 14px;
+  letter-spacing:3px !important;
+  box-shadow:0 4px 0 #071011,inset 0 0 0 2px rgba(125,255,232,.13) !important;
+}
+#menu .logo-tag,#menu .menu-logo::after{
+  border-radius:0 !important;
+  border:2px solid #315956 !important;
+  box-shadow:0 3px 0 #050b0c !important;
+}
+#menu .menu-footer{font-family:monospace;letter-spacing:1px;text-shadow:2px 2px #061011 !important;}
+#menu .sculk-vines{filter:drop-shadow(0 0 5px #42e8d3);}
+
+
+
+/* TEXTURAS VANILLA REAIS — Minecraft Java 1.21.4 */
+:root {
+  --mc-sculk-vein: url("https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.4/blocks/sculk_vein.png");
+  --mc-glow-lichen: url("https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.4/blocks/glow_lichen.png");
+  --mc-deepslate: url("https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.4/blocks/deepslate.png");
+  --mc-cobbled-deepslate: url("https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.4/blocks/cobbled_deepslate.png");
+  --mc-sculk: url("https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.21.4/blocks/sculk.png");
+}
+#menu .menu-scene { isolation:isolate; }
+#menu .vanilla-block-textures {
+  position:absolute; inset:0; z-index:0; pointer-events:none;
+  image-rendering:pixelated;
+  background-image:
+    linear-gradient(90deg,rgba(0,0,0,.08),transparent 24%,transparent 76%,rgba(0,0,0,.12)),
+    var(--mc-deepslate), var(--mc-cobbled-deepslate), var(--mc-deepslate),
+    var(--mc-cobbled-deepslate), var(--mc-sculk);
+  background-size:
+    100% 100%,
+    112px 112px, 96px 96px, 112px 112px, 96px 96px, 96px 96px;
+  background-position:
+    center,
+    left top, left bottom, right top, right bottom, center bottom;
+  background-repeat:
+    no-repeat, repeat-y, repeat-x, repeat-y, repeat-x, repeat-x;
+  opacity:.68;
+  -webkit-mask-image:linear-gradient(90deg,#000 0%,#000 13%,transparent 29%,transparent 71%,#000 87%,#000 100%),linear-gradient(0deg,#000 0%,#000 13%,transparent 31%,transparent 78%,#000 100%);
+  -webkit-mask-composite:source-in;
+  mask-image:linear-gradient(90deg,#000 0%,#000 13%,transparent 29%,transparent 71%,#000 87%,#000 100%);
+}
+#menu .sculk-vines {
+  position:absolute; inset:0 0 auto 0; height:clamp(170px,34vh,290px);
+  z-index:2; pointer-events:none; overflow:hidden;
+  image-rendering:pixelated;
+  background-image:
+    linear-gradient(180deg,rgba(0,0,0,.1),transparent 72%),
+    var(--mc-sculk-vein), var(--mc-sculk-vein), var(--mc-glow-lichen);
+  background-size:100% 100%, 64px 64px, 48px 48px, 80px 80px;
+  background-position:center, 0 0, 23px 17px, 41px 9px;
+  background-repeat:no-repeat,repeat,repeat,repeat;
+  opacity:.94;
+  filter:drop-shadow(0 0 5px rgba(75,255,226,.48));
+}
+#menu .sculk-vines svg { display:none !important; }
+#menu .menu-logo { position:relative; z-index:4; }
+#menu .menu-buttons { position:relative; z-index:4; }
+#menu .menu-scene::before { z-index:1; }
+#menu .menu-scene::after { z-index:2; }
+@media(max-width:700px) {
+  #menu .sculk-vines { height:clamp(125px,24vh,190px); }
+  #menu .vanilla-block-textures { opacity:.48; }
+}
+
+
+
+/* MENU LIMPO — menos elementos, foco no nome e nos botoes */
+#menu .menu-scene {
+  position:relative !important;
+  isolation:isolate !important;
+  overflow:hidden !important;
+  border:6px solid #101c20 !important;
+  outline:2px solid #315b5b !important;
+  outline-offset:-11px !important;
+  background-color:#020a0d !important;
+  background-image:
+    radial-gradient(ellipse at 50% 42%,rgba(38,145,139,.18),transparent 48%),
+    linear-gradient(180deg,#061216 0%,#02090c 58%,#071316 100%) !important;
+  box-shadow:0 0 0 4px #03090b,0 0 28px rgba(45,190,180,.18),inset 0 0 55px #000 !important;
+}
+/* Desliga as antigas camadas decorativas que estavam se sobrepondo */
+#menu .menu-scene::before,
+#menu .menu-scene::after {
+  content:none !important;
+  display:none !important;
+}
+#menu .menu-logo::after { display:none !important; }
+
+/* Texturas originais somente nas laterais, deixando o centro livre */
+#menu .vanilla-block-textures {
+  position:absolute !important;
+  inset:0 !important;
+  z-index:0 !important;
+  pointer-events:none !important;
+  opacity:.48 !important;
+  background-image:
+    linear-gradient(90deg,rgba(0,0,0,.08),transparent 20%,transparent 80%,rgba(0,0,0,.08)),
+    var(--mc-deepslate),
+    var(--mc-cobbled-deepslate);
+  background-size:100% 100%,80px 80px,80px 80px;
+  background-position:center,left top,right top;
+  background-repeat:no-repeat,repeat-y,repeat-y;
+  -webkit-mask-image:linear-gradient(90deg,#000 0%,#000 12%,transparent 27%,transparent 73%,#000 88%,#000 100%);
+  mask-image:linear-gradient(90deg,#000 0%,#000 12%,transparent 27%,transparent 73%,#000 88%,#000 100%);
+  image-rendering:pixelated;
+}
+
+/* Sculk Veins originais em poucos pontos no teto */
+#menu .sculk-vines {
+  position:absolute !important;
+  inset:0 0 auto 0 !important;
+  height:108px !important;
+  z-index:2 !important;
+  pointer-events:none !important;
+  overflow:hidden !important;
+  opacity:.62 !important;
+  filter:drop-shadow(0 0 3px rgba(75,255,226,.25)) !important;
+  background-image:var(--mc-sculk-vein),var(--mc-sculk-vein);
+  background-size:112px 112px,112px 112px;
+  background-position:left top,right top;
+  background-repeat:no-repeat,no-repeat;
+}
+#menu .sculk-vines svg { display:none !important; }
+
+/* Conteudo central sem competir com a decoracao */
+#menu .menu-logo,
+#menu .menu-buttons,
+#menu .pixel-mascot {
+  position:relative !important;
+  z-index:4 !important;
+}
+#menu .menu-logo { margin-top:0 !important; }
+#menu .menu-buttons { max-width:500px !important; }
+#menu .logo-title {
+  text-shadow:3px 3px 0 #244d4a,6px 6px 0 #0b2021,0 0 15px rgba(78,255,230,.28) !important;
+}
+#menu .menu-footer {
+  background:rgba(0,8,10,.72) !important;
+  border-color:rgba(75,153,145,.35) !important;
+}
+@media(max-width:700px) {
+  #menu .vanilla-block-textures { opacity:.35 !important; }
+  #menu .sculk-vines { height:76px !important; background-size:80px 80px,80px 80px; }
+}
+
+
+
+/* GAMEPLAY — VISUAL LIMPO, COM A MESMA PALETA DO MENU */
+#game {
+  background:
+    linear-gradient(90deg,rgba(8,23,25,.96) 0%,rgba(5,13,16,.97) 12%,transparent 24%,transparent 76%,rgba(5,13,16,.97) 88%,rgba(8,23,25,.96) 100%),
+    radial-gradient(ellipse at 50% 22%,rgba(35,111,105,.13),transparent 48%),
+    linear-gradient(180deg,#071012 0%,#091719 58%,#050c0e 100%) !important;
+  color:#e8f8f2 !important;
+}
+#game::before {
+  opacity:.22 !important;
+  background:
+    linear-gradient(90deg,transparent 0 5%,rgba(86,153,137,.18) 5% 5.2%,transparent 5.2% 94.8%,rgba(86,153,137,.18) 94.8% 95%,transparent 95%),
+    repeating-linear-gradient(0deg,transparent 0 63px,rgba(160,203,188,.025) 63px 64px) !important;
+}
+#game > h1 {
+  color:#e9fff5 !important;
+  -webkit-text-stroke:1px #263e39 !important;
+  text-shadow:0 3px #1c3933,0 5px #07110f,0 0 12px rgba(102,190,165,.18) !important;
+  letter-spacing:1px !important;
+}
+#game .stat:not(.xp-stat) {
+  background:linear-gradient(180deg,#293b37 0%,#1b2b28 52%,#14211f 100%) !important;
+  border:2px solid #101b19 !important;
+  color:#eaf8f1 !important;
+  box-shadow:0 3px 0 #050a09,inset 0 1px rgba(255,255,255,.10) !important;
+  text-shadow:1px 1px #101a17 !important;
+}
+#game .xp-stat { filter:drop-shadow(0 2px 0 #050a09) !important; }
+#game .xp-track {
+  border:2px solid #111b18 !important;
+  background:#0b1411 !important;
+  box-shadow:inset 0 0 0 1px #53645b,0 2px 0 #050a09 !important;
+}
+#game .xp-fill {
+  background:linear-gradient(180deg,#c3f28b 0%,#7bbd48 48%,#4c862d 100%) !important;
+  box-shadow:inset 0 1px rgba(255,255,255,.48) !important;
+}
+/* Cartas com o visual original de terra do Minecraft */
+#game .card {
+  border:3px solid #40301d !important;
+  border-radius:2px !important;
+  background:#76502d !important;
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.12),0 3px #24190f !important;
+}
+#game .card-back {
+  background-color:#79502c !important;
+  background-image:
+    linear-gradient(180deg,#65a832 0 17%,#4b8427 17% 23%,transparent 23%),
+    repeating-linear-gradient(0deg,transparent 0 9px,rgba(42,25,12,.22) 9px 12px),
+    repeating-linear-gradient(90deg,transparent 0 11px,rgba(255,220,155,.12) 11px 14px),
+    linear-gradient(135deg,#9a6a3b,#684321 65%,#4a301c) !important;
+  background-size:auto !important;
+  image-rendering:pixelated;
+  box-shadow:inset 0 0 0 1px rgba(255,220,170,.12) !important;
+}
+#game .card:hover:not(.revealed):not(.matched) .card-back {
+  filter:brightness(1.18) !important;
+}
+#game .card:hover:not(.revealed):not(.matched) {
+  border-color:#b58a50 !important;
+  box-shadow:inset 0 0 0 2px rgba(255,220,160,.16),0 3px 0 #24190f,0 0 10px rgba(154,106,59,.28) !important;
+}
+#game .card.matched {
+  border-color:#d5b77a !important;
+  box-shadow:0 0 0 2px #4b351d,0 0 13px rgba(133,255,77,.45) !important;
+}
+#game > button {
+  border:2px solid #182622 !important;
+  color:#f0fff6 !important;
+  background:linear-gradient(180deg,#49665a 0%,#344d43 50%,#253a32 51%,#30483d 100%) !important;
+  box-shadow:0 3px 0 #050a08,inset 0 1px rgba(255,255,255,.2) !important;
+  text-shadow:1px 1px #17251f !important;
+  letter-spacing:.4px !important;
+}
+#game > button:hover {
+  background:linear-gradient(180deg,#648b75 0%,#456854 50%,#304c3b 51%,#3d604b 100%) !important;
+  box-shadow:0 3px 0 #050a08,0 0 10px rgba(133,190,150,.22) !important;
+}
+#game > button:active { transform:translateY(2px) !important; }
+@media(max-width:600px) {
+  #game .card { border-width:1px !important; }
+}
+
 </style>
 </head>
 
@@ -811,6 +1576,8 @@ body { height:100dvh; }
 <!-- MENU -->
 <section id="menu" class="screen">
   <div class="menu-scene">
+    <div class="sculk-vines" aria-hidden="true"></div>
+    <div class="vanilla-block-textures" aria-hidden="true"></div>
 
     <div class="menu-logo">
       <div class="logo-pickaxe">⛏</div>
