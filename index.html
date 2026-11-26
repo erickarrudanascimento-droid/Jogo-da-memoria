@@ -1187,40 +1187,26 @@ function prepareRound() {
     document.getElementById("timer").textContent =
         gameMode === "broche" ? "Restante: 02:00" : "Tempo: 00:00";
 
-    buildBoard(true);
+    buildBoard(false);
 
     const overlay = document.getElementById("prepOverlay");
     const text = document.getElementById("prepText");
     const hint = document.getElementById("prepHint");
 
     overlay.style.display = "flex";
-    text.textContent = "MEMORIZE!";
-    hint.textContent = "Observe as posições!";
+    text.textContent = "EMBARALHANDO!";
+    hint.textContent = "As cartas estão sendo misturadas!";
 
-    // 3 segundos para memorizar
+    // Embaralha as cartas sem a etapa de memorização
+    shuffle(cards);
+
     prepTimeouts.push(setTimeout(() => {
         if (gameFinished) return;
 
+        buildBoard(false);
         document.querySelectorAll(".card").forEach(card => {
-            card.classList.remove("revealed");
             card.classList.add("shuffling");
         });
-
-        text.textContent = "EMBARALHANDO!";
-        hint.textContent = "Preste atenção!";
-
-        shuffle(cards);
-
-        prepTimeouts.push(setTimeout(() => {
-            if (gameFinished) return;
-
-            buildBoard(false);
-
-            document.querySelectorAll(".card").forEach(card => {
-                card.classList.add("shuffling");
-            });
-
-        },400));
 
         prepTimeouts.push(setTimeout(() => {
             if (gameFinished) return;
@@ -1250,16 +1236,11 @@ function prepareRound() {
                 startTimer();
 
                 prepTimeouts.push(setTimeout(() => {
-                    if (!gameFinished) {
-                        overlay.style.display = "none";
-                    }
+                    if (!gameFinished) overlay.style.display = "none";
                 },650));
-
             },2400));
-
-        },1300));
-
-    },3000));
+        },900));
+    },100));
 }
 
 // =========================
@@ -1744,7 +1725,7 @@ function setMascotLine(id,lines) {
 const menuLines=[
     "Psst... encontre os pares!",
     "Cuidado: esse jogo vicia!",
-    "Dica: memorize antes do embaralhamento!",
+    "Dica: fique atento ao embaralhamento!",
     "Eu não explodo... hoje.",
     "Seu cérebro vai ganhar XP!"
 ];
